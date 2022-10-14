@@ -7,6 +7,7 @@ Boid::Boid()
 {
 	m_position = XMFLOAT3(0, 0, 0);
 	m_direction = XMFLOAT3(0, 1, 0);
+	createRandomDirection();
 	setScale(1); 
 
 }
@@ -22,6 +23,7 @@ void Boid::createRandomDirection()
 	float y = (float)(rand() % 10);
 	y -= 5;
 	float z = 0;
+
 	setDirection(XMFLOAT3(x, y, z));
 }
 
@@ -29,11 +31,22 @@ void Boid::setDirection(XMFLOAT3 direction)
 {
 	XMVECTOR v = XMLoadFloat3(&direction);
 	v = XMVector3Normalize(v);
-	XMStoreFloat3(&m_direction, v);
+	XMVECTOR vMagSq = XMVector3LengthSq(v);
+
+	//direction cannot be 0. Check if the magnitude is greater than 0. If not, set direction to normalized X vector.
+	if (vMagSq.m128_f32[0] > 0) { //check the X component of the VMagSq vector. Each component of the vector contains the LengthSq
+		XMStoreFloat3(&m_direction, v);
+	}
+	else {
+		XMFLOAT3 normalX = XMFLOAT3(1.0f, 0.0f, 0.0f);
+		v = XMLoadFloat3(&normalX);
+		v = XMVector3Normalize(v);
+		XMStoreFloat3(&m_direction, v);
+	}
+	
+
 }
 
-
-#define DIRECTION_DELTA 0.1f
 void Boid::update(float t, vecBoid* boidList)
 {
 	// create a list of nearby boids
@@ -48,7 +61,9 @@ void Boid::update(float t, vecBoid* boidList)
 	vTotal = addFloat3(vTotal, vCohesion);
 	vTotal = normaliseFloat3(vTotal);
 
-	// set me
+	//update the position of the fish, based on direction and speed
+	m_position = addFloat3(multiplyFloat3(multiplyFloat3(m_direction, DELTA_TIME), FISH_SPEED), m_position);
+	
 	// m_direction = ... ;// this should always have a magnitude > 0 - ideally 1
 	// m_position = ... ;
 
@@ -124,7 +139,7 @@ XMFLOAT3 Boid::calculateCohesionVector(vecBoid* boidList)
 
 // use but don't alter the methods below
 
-XMFLOAT3 Boid::addFloat3(XMFLOAT3& f1, XMFLOAT3& f2)
+XMFLOAT3 Boid::addFloat3(const XMFLOAT3& f1, const XMFLOAT3& f2)
 {
 	XMFLOAT3 out;
 	out.x = f1.x + f2.x;
@@ -144,7 +159,7 @@ XMFLOAT3 Boid::subtractFloat3(XMFLOAT3& f1, XMFLOAT3& f2)
 	return out;
 }
 
-XMFLOAT3 Boid::multiplyFloat3(XMFLOAT3& f1, const float scalar)
+XMFLOAT3 Boid::multiplyFloat3(const XMFLOAT3& f1, const float scalar)
 {
 	XMFLOAT3 out;
 	out.x = f1.x * scalar;
@@ -206,7 +221,6 @@ vecBoid Boid::nearbyBoids(vecBoid* boidList)
 
 void Boid::checkIsOnScreenAndFix(const XMMATRIX&  view, const XMMATRIX&  proj)
 {
-	return; // remove me
 
 	XMFLOAT4 v4;
 	v4.x = m_position.x;
@@ -244,11 +258,11 @@ void Boid::checkIsOnScreenAndFix(const XMMATRIX&  view, const XMMATRIX&  proj)
 		m_position.z = v4.z;
 
 		// method2 - bounce off sides and head to centre
-		/*if (v.x < -1 || v.x > 1 || v.y < -1 || v.y > 1)
-		{
-			m_direction = multiplyFloat3(m_direction, -1);;
-			m_direction = normaliseFloat3(m_direction);
-		}*/
+		//if (v.x < -1 || v.x > 1 || v.y < -1 || v.y > 1)
+		//{
+		//	m_direction = multiplyFloat3(m_direction, -1);;
+		//	m_direction = normaliseFloat3(m_direction);
+		//}
 	}
 
 	return;

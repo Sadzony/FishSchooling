@@ -18,6 +18,7 @@
 
 #include <time.h>  
 #include "Boid.h"
+#include "defines.h"
 
 
 //--------------------------------------------------------------------------------------
@@ -73,17 +74,21 @@ int						g_viewHeight;
 vecBoid					g_Boids;
 
 
-#define FISH_COUNT 200
-
 void placeFish()
 {
+    g_Boids.clear();
 	HRESULT hr;
-	Boid* fish = new Boid();
-	hr = fish->initMesh(g_pd3dDevice, g_pImmediateContext);
-	if (FAILED(hr))
-		return;
-	fish->setPosition(XMFLOAT3(0, 0, 0));
-	g_Boids.push_back(fish);
+    int fishW = (int)(sqrt(FISH_COUNT));
+    for (int i = 0; i < fishW; i++) {
+        for (int j = 0; j < fishW; j++) {
+            Boid* fish = new Boid();
+            hr = fish->initMesh(g_pd3dDevice, g_pImmediateContext);
+            if (FAILED(hr))
+                return;
+            fish->setPosition(XMFLOAT3(-50 + (i*10), 0 + (j*10), 0));
+            g_Boids.push_back(fish);
+        }
+    }
 
 }
 
