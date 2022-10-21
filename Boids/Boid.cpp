@@ -1,7 +1,7 @@
 #include "Boid.h"
 
 
-#define NEARBY_DISTANCE		200.0f	// how far boids can see
+
 
 Boid::Boid()
 {
@@ -57,9 +57,25 @@ void Boid::update(float t, vecBoid* boidList)
 	XMFLOAT3  vAlignment = calculateAlignmentVector(&nearBoids);
 	XMFLOAT3  vCohesion = calculateCohesionVector(&nearBoids);
 
-	XMFLOAT3 vTotal = addFloat3(vSeparation, vAlignment);
-	vTotal = addFloat3(vTotal, vCohesion);
+	//update with strength modifiers
+	vSeparation = multiplyFloat3(vSeparation, SEPARATION_STRENGTH);
+	vAlignment = multiplyFloat3(vAlignment, ALIGNMENT_STRENGTH);
+	vCohesion = multiplyFloat3(vCohesion, COHESION_STRENGTH);
+
+
+	XMFLOAT3 vTotal = addFloat3(vCohesion, vAlignment);
+	vTotal = addFloat3(vTotal, vSeparation);
+	float magnitude = magnitudeFloat3(vTotal);
 	vTotal = normaliseFloat3(vTotal);
+	if (magnitude > 0) {
+		m_direction = vTotal;
+	}
+	
+
+	//add direction modifier
+	XMFLOAT3 directionDelta = multiplyFloat3(m_direction, DIRECTION_MODIFIER);
+	m_direction = addFloat3(m_direction, directionDelta);
+	m_direction = normaliseFloat3(m_direction);
 
 	//update the position of the fish, based on direction and speed
 	m_position = addFloat3(multiplyFloat3(multiplyFloat3(m_direction, DELTA_TIME), FISH_SPEED), m_position);
@@ -72,49 +88,64 @@ void Boid::update(float t, vecBoid* boidList)
 
 XMFLOAT3 Boid::calculateSeparationVector(vecBoid* boidList)
 {
-	XMFLOAT3 nearby = XMFLOAT3(0, 0, 0);
+	XMFLOAT3 outV = XMFLOAT3(0, 0, 0);
 	if (boidList == nullptr)
-		return nearby;
-
+		return outV;
+	int nearbyCount = 0;
 	// calculate average position of nearby
-
-	float nearestDistance = 9999.0f;
-	DrawableGameObject* nearest = nullptr;
-	XMFLOAT3 directionNearestStored;
-
 	for (Boid* boid : *boidList) {
 		if (boid == this)
 			continue;
 
 		XMFLOAT3 mePos = m_position;
 		XMFLOAT3 itPos = *boid->getPosition();
-
-		XMFLOAT3 directionNearest = subtractFloat3(mePos, itPos);
+		XMFLOAT3 directionNearest = subtractFloat3(itPos, mePos);
 		float d = magnitudeFloat3(directionNearest);
-		if (d < nearestDistance)
+		if (d < NEARBY_DISTANCE)
 		{
-			nearestDistance = d;
-			nearest = boid;
-			directionNearestStored = directionNearest;
+			outV = addFloat3(outV, directionNearest);
+			nearbyCount++;
 		}
 	}
 
-	if (nearest != nullptr) {
-		return normaliseFloat3(directionNearestStored);
+	if (nearbyCount == 0) {
+		return m_direction;
 	}
-
-	return m_direction;
+	else {
+		outV = multiplyFloat3(outV, -1);
+		return normaliseFloat3(outV);
+	}
 }
 
 XMFLOAT3 Boid::calculateAlignmentVector(vecBoid* boidList)
 {
-	XMFLOAT3 nearby = XMFLOAT3(0, 0, 0);
+	XMFLOAT3 outV = XMFLOAT3(0, 0, 0);
 	if (boidList == nullptr)
-		return nearby;
+		return outV;
 
 	// your code here
-
-	return normaliseFloat3(nearby); // return the normalised (average) direction of nearby drawables
+	int nearbyCount = 0;
+	for (Boid* boid : *boidList) {
+		if (boid == this)
+			continue;
+		XMFLOAT3 mePos = m_position;
+		XMFLOAT3 itPos = *boid->getPosition();
+		XMFLOAT3 directionNearest = subtractFloat3(mePos, itPos);
+		float d = magnitudeFloat3(directionNearest);
+		if (d < NEARBY_DISTANCE)
+		{
+			outV = addFloat3(outV, boid->m_direction);
+			nearbyCount++;
+		}
+	}
+	if (nearbyCount == 0) {
+		return XMFLOAT3(0, 0, 0);
+	}
+	else {
+		outV = divideFloat3(outV, nearbyCount);
+		return normaliseFloat3(outV); // return the normalised (average) direction of nearby drawables
+	}
+	
 }
 
 XMFLOAT3 Boid::calculateCohesionVector(vecBoid* boidList)
@@ -125,11 +156,20 @@ XMFLOAT3 Boid::calculateCohesionVector(vecBoid* boidList)
 		return nearby;
 
 	// calculate average position of nearby
+	int nearbyCount = 0;
 	for (Boid* boid : *boidList) {
-		nearby = addFloat3(nearby, *boid->getPosition());
+		XMFLOAT3 mePos = m_position;
+		XMFLOAT3 itPos = *boid->getPosition();
+		XMFLOAT3 dir = subtractFloat3(mePos, itPos);
+		float d = magnitudeFloat3(dir);
+		if (d < NEARBY_DISTANCE)
+		{
+			nearby = addFloat3(nearby, itPos);
+			nearbyCount++;
+		}
 	}
 
-	nearby = divideFloat3(nearby, (float)boidList->size());
+	nearby = divideFloat3(nearby, nearbyCount);
 	nearby = subtractFloat3(nearby, m_position);
 
 	return normaliseFloat3(nearby); // nearby is the direction to where the other drawables are
