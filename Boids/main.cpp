@@ -173,6 +173,9 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
     ShowWindow( g_hWnd, nCmdShow );
 
+    //generate seed
+    srand(time(NULL));
+
     return S_OK;
 }
 

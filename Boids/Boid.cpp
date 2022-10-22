@@ -72,10 +72,22 @@ void Boid::update(float t, vecBoid* boidList)
 	}
 	
 
-	//add direction modifier
-	XMFLOAT3 directionDelta = multiplyFloat3(m_direction, DIRECTION_MODIFIER);
-	m_direction = addFloat3(m_direction, directionDelta);
-	m_direction = normaliseFloat3(m_direction);
+	//Rotate the direction vector by X angles
+	float xRotation;
+	float yRotation;
+
+	int randomizer = rand() % 2;
+	if (randomizer == 0) {
+		xRotation = (m_direction.x * cos(DIRECTION_MODIFIER_ANGLE * DELTA_TIME)) - (m_direction.y * sin(DIRECTION_MODIFIER_ANGLE * DELTA_TIME));
+		yRotation = (m_direction.x * sin(DIRECTION_MODIFIER_ANGLE * DELTA_TIME)) + (m_direction.y * cos(DIRECTION_MODIFIER_ANGLE * DELTA_TIME));
+	}
+	else {
+		xRotation = (m_direction.x * cos(DIRECTION_MODIFIER_ANGLE * DELTA_TIME)) - (m_direction.y * sin(DIRECTION_MODIFIER_ANGLE * DELTA_TIME));
+		yRotation = (m_direction.x * sin(DIRECTION_MODIFIER_ANGLE * DELTA_TIME)) + (m_direction.y * cos(DIRECTION_MODIFIER_ANGLE * DELTA_TIME));
+	}
+	setDirection(XMFLOAT3(xRotation, yRotation, 0.0f));
+	
+	
 
 	//update the position of the fish, based on direction and speed
 	m_position = addFloat3(multiplyFloat3(multiplyFloat3(m_direction, DELTA_TIME), FISH_SPEED), m_position);
@@ -164,7 +176,8 @@ XMFLOAT3 Boid::calculateCohesionVector(vecBoid* boidList)
 		float d = magnitudeFloat3(dir);
 		if (d < NEARBY_DISTANCE)
 		{
-			nearby = addFloat3(nearby, itPos);
+			
+			nearby = addFloat3(nearby, (itPos));
 			nearbyCount++;
 		}
 	}
