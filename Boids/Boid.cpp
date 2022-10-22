@@ -57,6 +57,37 @@ void Boid::update(float t, vecBoid* boidList)
 	XMFLOAT3  vAlignment = calculateAlignmentVector(&nearBoids);
 	XMFLOAT3  vCohesion = calculateCohesionVector(&nearBoids);
 
+	////find average Distance
+	//int nearbyCount = 0;
+	//float averageDistance = 0;
+	//for (Boid* boid : *boidList) {
+	//	if (boid == this)
+	//		continue;
+
+	//	XMFLOAT3 mePos = m_position;
+	//	XMFLOAT3 itPos = *boid->getPosition();
+	//	XMFLOAT3 directionNearest = subtractFloat3(itPos, mePos);
+	//	float d = magnitudeFloat3(directionNearest);
+	//	if (d < NEARBY_DISTANCE)
+	//	{
+	//		averageDistance += d;
+	//		nearbyCount++;
+	//	}
+	//}
+	//averageDistance /= nearbyCount;
+
+	////switch weights around if boids are closer on average
+	//float cohesionWeight = 0;
+	//float separationWeight = 0;
+	//if (averageDistance < MIN_DISTANCE) {
+	//	cohesionWeight = SEPARATION_STRENGTH;
+	//	separationWeight = COHESION_STRENGTH;
+	//}
+	//else {
+	//	cohesionWeight = COHESION_STRENGTH;
+	//	separationWeight = SEPARATION_STRENGTH;
+	//}
+
 	//update with strength modifiers
 	vSeparation = multiplyFloat3(vSeparation, SEPARATION_STRENGTH);
 	vAlignment = multiplyFloat3(vAlignment, ALIGNMENT_STRENGTH);
@@ -72,7 +103,7 @@ void Boid::update(float t, vecBoid* boidList)
 	}
 	
 
-	//Rotate the direction vector by X angles
+	//Rotate the direction vector by X angles. Direction left or right at random.
 	float xRotation;
 	float yRotation;
 
@@ -115,6 +146,7 @@ XMFLOAT3 Boid::calculateSeparationVector(vecBoid* boidList)
 		float d = magnitudeFloat3(directionNearest);
 		if (d < NEARBY_DISTANCE)
 		{
+
 			outV = addFloat3(outV, directionNearest);
 			nearbyCount++;
 		}
@@ -176,8 +208,7 @@ XMFLOAT3 Boid::calculateCohesionVector(vecBoid* boidList)
 		float d = magnitudeFloat3(dir);
 		if (d < NEARBY_DISTANCE)
 		{
-			
-			nearby = addFloat3(nearby, (itPos));
+			nearby = addFloat3(nearby, itPos);
 			nearbyCount++;
 		}
 	}
