@@ -1,12 +1,13 @@
 ﻿  Boid.cpp
-C:\Users\s011308k\Documents\GitHub\FishSchooling\Boids\Boid.cpp(146,29): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-C:\Users\s011308k\Documents\GitHub\FishSchooling\Boids\Boid.cpp(173,32): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\Boid.cpp(196,29): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\Boid.cpp(223,32): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
   main.cpp
-C:\Users\s011308k\Documents\GitHub\FishSchooling\Boids\main.cpp(88,56): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\s011308k\Documents\GitHub\FishSchooling\Boids\main.cpp(88,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(88,56): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(88,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(177,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   Generating code
-  3 of 221 functions ( 1.4%) were compiled, the rest were copied from previous compilation.
+  1 of 222 functions ( 0.5%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    4 functions had inline decision re-evaluated but remain unchanged
+    3 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-  Boids.vcxproj -> C:\Users\s011308k\Documents\GitHub\FishSchooling\x64\Release\Boids.exe
+  Boids.vcxproj -> C:\Users\szymo\Programming\AI\FishSchooling\x64\Release\Boids.exe

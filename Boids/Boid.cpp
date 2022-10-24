@@ -110,14 +110,18 @@ void Boid::update(float t, vecBoid* boidList)
 	float xRotation;
 	float yRotation;
 
-	int randomizer = rand() % 2;
+	int randomizer = rand() % 3;
 	if (randomizer == 0) {
 		xRotation = (m_direction.x * cos(DIRECTION_MODIFIER_ANGLE * DELTA_TIME)) - (m_direction.y * sin(DIRECTION_MODIFIER_ANGLE * DELTA_TIME));
 		yRotation = (m_direction.x * sin(DIRECTION_MODIFIER_ANGLE * DELTA_TIME)) + (m_direction.y * cos(DIRECTION_MODIFIER_ANGLE * DELTA_TIME));
 	}
-	else {
+	else if (randomizer == 1) {
 		xRotation = (m_direction.x * cos(DIRECTION_MODIFIER_ANGLE * DELTA_TIME)) - (m_direction.y * sin(DIRECTION_MODIFIER_ANGLE * DELTA_TIME));
 		yRotation = (m_direction.x * sin(DIRECTION_MODIFIER_ANGLE * DELTA_TIME)) + (m_direction.y * cos(DIRECTION_MODIFIER_ANGLE * DELTA_TIME));
+	}
+	else {
+		xRotation = m_direction.x;
+		yRotation = m_direction.y;
 	}
 	setDirection(XMFLOAT3(xRotation, yRotation, 0.0f));
 	

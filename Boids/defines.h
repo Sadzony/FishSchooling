@@ -3,7 +3,7 @@
 #define DELTA_TIME 0.018f
 
 #define FISH_COUNT 400
-#define FISH_SPEED 50.0f
+#define FISH_SPEED 20.0f
 #define NEARBY_DISTANCE		15.0f	// how far boids can see
 
 
