@@ -88,6 +88,9 @@ void Boid::update(float t, vecBoid* boidList)
 	//	separationWeight = SEPARATION_STRENGTH;
 	//}
 
+	//weight * ( 1 - dist/maxdist)   - power gets bigger the shorter the distance
+	//weight * (dist/maxdist)        - power gets smaller the shorter the distance
+
 	//update with strength modifiers
 	vSeparation = multiplyFloat3(vSeparation, SEPARATION_STRENGTH);
 	vAlignment = multiplyFloat3(vAlignment, ALIGNMENT_STRENGTH);

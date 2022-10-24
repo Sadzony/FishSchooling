@@ -7,7 +7,7 @@
 #define NEARBY_DISTANCE		15.0f	// how far boids can see
 
 
-#define MIN_DISTANCE 8.0f
+#define MIN_DISTANCE 0.5f //distance on which separation is max power and cohesion is no power
 
 #define ALIGNMENT_STRENGTH 2.0f
 #define SEPARATION_STRENGTH 1.4f
