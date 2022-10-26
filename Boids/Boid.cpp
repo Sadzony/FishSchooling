@@ -57,37 +57,6 @@ void Boid::update(float t, vecBoid* boidList)
 	XMFLOAT3  vAlignment = calculateAlignmentVector(&nearBoids);
 	XMFLOAT3  vCohesion = calculateCohesionVector(&nearBoids);
 
-	////find average Distance
-	//int nearbyCount = 0;
-	//float averageDistance = 0;
-	//for (Boid* boid : *boidList) {
-	//	if (boid == this)
-	//		continue;
-
-	//	XMFLOAT3 mePos = m_position;
-	//	XMFLOAT3 itPos = *boid->getPosition();
-	//	XMFLOAT3 directionNearest = subtractFloat3(itPos, mePos);
-	//	float d = magnitudeFloat3(directionNearest);
-	//	if (d < NEARBY_DISTANCE)
-	//	{
-	//		averageDistance += d;
-	//		nearbyCount++;
-	//	}
-	//}
-	//averageDistance /= nearbyCount;
-
-	////switch weights around if boids are closer on average
-	//float cohesionWeight = 0;
-	//float separationWeight = 0;
-	//if (averageDistance < MIN_DISTANCE) {
-	//	cohesionWeight = SEPARATION_STRENGTH;
-	//	separationWeight = COHESION_STRENGTH;
-	//}
-	//else {
-	//	cohesionWeight = COHESION_STRENGTH;
-	//	separationWeight = SEPARATION_STRENGTH;
-	//}
-
 	//weight * ( 1 - dist/maxdist)   - power gets bigger the shorter the distance
 	//weight * (dist/maxdist)        - power gets smaller the shorter the distance
 
@@ -101,31 +70,42 @@ void Boid::update(float t, vecBoid* boidList)
 	vTotal = addFloat3(vTotal, vSeparation);
 	float magnitude = magnitudeFloat3(vTotal);
 	vTotal = normaliseFloat3(vTotal);
+
+	bool directionChange = false;
+	XMFLOAT3 newDirection;
 	if (magnitude > 0) {
-		m_direction = vTotal;
-	}
-	
-
-	//Rotate the direction vector by X angles. Direction left or right at random.
-	float xRotation;
-	float yRotation;
-
-	int randomizer = rand() % 3;
-	if (randomizer == 0) {
-		xRotation = (m_direction.x * cos(DIRECTION_MODIFIER_ANGLE * DELTA_TIME)) - (m_direction.y * sin(DIRECTION_MODIFIER_ANGLE * DELTA_TIME));
-		yRotation = (m_direction.x * sin(DIRECTION_MODIFIER_ANGLE * DELTA_TIME)) + (m_direction.y * cos(DIRECTION_MODIFIER_ANGLE * DELTA_TIME));
-	}
-	else if (randomizer == 1) {
-		xRotation = (m_direction.x * cos(DIRECTION_MODIFIER_ANGLE * DELTA_TIME)) - (m_direction.y * sin(DIRECTION_MODIFIER_ANGLE * DELTA_TIME));
-		yRotation = (m_direction.x * sin(DIRECTION_MODIFIER_ANGLE * DELTA_TIME)) + (m_direction.y * cos(DIRECTION_MODIFIER_ANGLE * DELTA_TIME));
+		newDirection = vTotal;
+		directionChange = true;
 	}
 	else {
-		xRotation = m_direction.x;
-		yRotation = m_direction.y;
+		newDirection = XMFLOAT3(0,0,0);
 	}
-	setDirection(XMFLOAT3(xRotation, yRotation, 0.0f));
-	
-	
+
+	////Rotate the direction vector by X angles. Direction left or right at random.
+	//float xRotation;
+	//float yRotation;
+
+	//int randomizer = rand() % 3;
+	//if (randomizer == 0) {
+	//	xRotation = (m_direction.x * cos(DIRECTION_MODIFIER_ANGLE * DELTA_TIME)) - (m_direction.y * sin(DIRECTION_MODIFIER_ANGLE * DELTA_TIME));
+	//	yRotation = (m_direction.x * sin(DIRECTION_MODIFIER_ANGLE * DELTA_TIME)) + (m_direction.y * cos(DIRECTION_MODIFIER_ANGLE * DELTA_TIME));
+	//}
+	//else if (randomizer == 1) {
+	//	xRotation = (m_direction.x * cos(DIRECTION_MODIFIER_ANGLE * DELTA_TIME)) - (m_direction.y * sin(DIRECTION_MODIFIER_ANGLE * DELTA_TIME));
+	//	yRotation = (m_direction.x * sin(DIRECTION_MODIFIER_ANGLE * DELTA_TIME)) + (m_direction.y * cos(DIRECTION_MODIFIER_ANGLE * DELTA_TIME));
+	//}
+	//else {
+	//	xRotation = m_direction.x;
+	//	yRotation = m_direction.y;
+	//}
+	//m_direction = XMFLOAT3(xRotation, yRotation, 0.0f);
+	// 
+
+	//damped direction change
+	if (directionChange) {
+		m_direction = addFloat3(m_direction, multiplyFloat3(newDirection, 0.06f));
+		normaliseFloat3(m_direction);
+	}
 
 	//update the position of the fish, based on direction and speed
 	m_position = addFloat3(multiplyFloat3(multiplyFloat3(m_direction, DELTA_TIME), FISH_SPEED), m_position);
@@ -142,7 +122,8 @@ XMFLOAT3 Boid::calculateSeparationVector(vecBoid* boidList)
 	if (boidList == nullptr)
 		return outV;
 	int nearbyCount = 0;
-	// calculate average position of nearby
+	float distanceNearest = -1;
+	//find boid that is closest to this boid. steer away from it.
 	for (Boid* boid : *boidList) {
 		if (boid == this)
 			continue;
@@ -151,20 +132,26 @@ XMFLOAT3 Boid::calculateSeparationVector(vecBoid* boidList)
 		XMFLOAT3 itPos = *boid->getPosition();
 		XMFLOAT3 directionNearest = subtractFloat3(itPos, mePos);
 		float d = magnitudeFloat3(directionNearest);
-		if (d < NEARBY_DISTANCE)
-		{
-
-			outV = addFloat3(outV, directionNearest);
-			nearbyCount++;
+		if ((d < distanceNearest) || distanceNearest < 0) {
+			distanceNearest = d;
+			outV = directionNearest;
 		}
+		nearbyCount++;
+
 	}
+
 
 	if (nearbyCount == 0) {
 		return m_direction;
 	}
 	else {
 		outV = multiplyFloat3(outV, -1);
-		return normaliseFloat3(outV);
+		if (distanceNearest < SEPARATION_DISTANCE) {
+			return multiplyFloat3(normaliseFloat3(outV), SEPARATION_MULTIPLIER); //double strength if below distance
+		}
+		else {
+			return normaliseFloat3(outV);
+		}
 	}
 }
 
@@ -213,7 +200,7 @@ XMFLOAT3 Boid::calculateCohesionVector(vecBoid* boidList)
 		XMFLOAT3 itPos = *boid->getPosition();
 		XMFLOAT3 dir = subtractFloat3(mePos, itPos);
 		float d = magnitudeFloat3(dir);
-		if (d < NEARBY_DISTANCE)
+		if (d < NEARBY_DISTANCE && d > SEPARATION_DISTANCE)
 		{
 			nearby = addFloat3(nearby, itPos);
 			nearbyCount++;
@@ -221,9 +208,21 @@ XMFLOAT3 Boid::calculateCohesionVector(vecBoid* boidList)
 	}
 
 	nearby = divideFloat3(nearby, nearbyCount);
-	nearby = subtractFloat3(nearby, m_position);
+	nearby = subtractFloat3(nearby, m_position); 
 
-	return normaliseFloat3(nearby); // nearby is the direction to where the other drawables are
+	//depending on how far the average position is, weight the cohesion down
+	float d = magnitudeFloat3(nearby);
+	nearby = normaliseFloat3(nearby); // nearby (when normalised) is the direction to where the other drawables are
+	if (d < COHESION_DISTANCE) { //but only if below cohesion distance
+		float weight = (d / COHESION_DISTANCE);
+		return multiplyFloat3(nearby, weight);
+	}
+	else {
+		return multiplyFloat3(nearby, COHESION_MULTIPLIER);; //if distance is far then multiply!
+	}
+	 
+
+	
 }
 
 
@@ -344,16 +343,17 @@ void Boid::checkIsOnScreenAndFix(const XMMATRIX&  view, const XMMATRIX&  proj)
 		//createRandomDirection();
 
 		// method 1 - appear on the other side
-		m_position.x = v4.x;
-		m_position.y = v4.y;
-		m_position.z = v4.z;
+		//m_position.x = v4.x;
+		//m_position.y = v4.y;
+		//m_position.z = v4.z;
 
 		// method2 - bounce off sides and head to centre
-		//if (v.x < -1 || v.x > 1 || v.y < -1 || v.y > 1)
-		//{
-		//	m_direction = multiplyFloat3(m_direction, -1);;
-		//	m_direction = normaliseFloat3(m_direction);
-		//}
+		if (v.x < -1 || v.x > 1 || v.y < -1 || v.y > 1)
+		{
+			m_direction = multiplyFloat3(m_direction, -1);;
+			m_direction = normaliseFloat3(m_direction);
+			setDirection(m_direction);
+		}
 	}
 
 	return;

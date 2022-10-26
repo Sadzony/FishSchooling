@@ -1,9 +1,4 @@
 ﻿  Boid.cpp
-C:\Users\s011308k\Documents\GitHub\FishSchooling\Boids\Boid.cpp(189,29): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-C:\Users\s011308k\Documents\GitHub\FishSchooling\Boids\Boid.cpp(216,32): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-  main.cpp
-C:\Users\s011308k\Documents\GitHub\FishSchooling\Boids\main.cpp(88,56): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\s011308k\Documents\GitHub\FishSchooling\Boids\main.cpp(88,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\s011308k\Documents\GitHub\FishSchooling\Boids\main.cpp(177,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  Generating Code...
-  Boids.vcxproj -> C:\Users\s011308k\Documents\GitHub\FishSchooling\x64\Debug\Boids.exe
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\Boid.cpp(183,29): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\Boid.cpp(210,32): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+  Boids.vcxproj -> C:\Users\szymo\Programming\AI\FishSchooling\x64\Debug\Boids.exe
