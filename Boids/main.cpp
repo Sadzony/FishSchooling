@@ -18,6 +18,7 @@
 
 #include <time.h>  
 #include "Boid.h"
+#include "Predator.h"
 #include "defines.h"
 
 
@@ -72,6 +73,8 @@ int						g_viewWidth;
 int						g_viewHeight;
 
 vecBoid					g_Boids;
+Predator                g_predatorBoid;
+
 
 
 void placeFish()
@@ -89,6 +92,12 @@ void placeFish()
             g_Boids.push_back(fish);
         }
     }
+    Predator* predator = new Predator();
+    hr = predator->initMesh(g_pd3dDevice, g_pImmediateContext);
+    if (FAILED(hr))
+        return;
+    predator->setPosition(XMFLOAT3(-250, 0, 0));
+    g_Boids.push_back(predator);
 
 }
 

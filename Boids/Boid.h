@@ -1,6 +1,10 @@
 #pragma once
 #include "DrawableGameObject.h"
 #include "defines.h"
+enum FishFlag {
+	fishBoid,
+	predatorBoid
+};
 class Boid :
 	public DrawableGameObject
 {
@@ -10,7 +14,7 @@ public:
 
 	XMFLOAT3*							getDirection() { return &m_direction; }
 	void								checkIsOnScreenAndFix(const XMMATRIX&  view, const XMMATRIX&  proj);
-	void								update(float t, vecBoid* drawList);
+	virtual void						update(float t, vecBoid* drawList);
 
 protected:
 	void								setDirection(XMFLOAT3 direction);
@@ -18,8 +22,10 @@ protected:
 	vecBoid								nearbyBoids(vecBoid* boidList);
 	XMFLOAT3							calculateSeparationVector(vecBoid* drawList);
 	XMFLOAT3							calculateAlignmentVector(vecBoid* drawList);
-	XMFLOAT3							calculateCohesionVector(vecBoid* drawList);
+	XMFLOAT3							calculateCohesionVector(vecBoid* drawList, vecBoid* fullList);
 	void								createRandomDirection();
+	void								randomizeStats();
+	float								randomizeWithinFraction(double value, float fraction);
 
 	XMFLOAT3							addFloat3(const XMFLOAT3& f1, const XMFLOAT3& f2);
 	XMFLOAT3							subtractFloat3(XMFLOAT3& f1, XMFLOAT3& f2);
@@ -29,6 +35,11 @@ protected:
 	XMFLOAT3							divideFloat3(XMFLOAT3& f1, const float scalar);
 
 	XMFLOAT3							m_direction;
+	float								m_speed;
+	float								m_sightDistance;
+	float								m_scale;
+	float								m_turningDelta;
+	FishFlag							m_flag;
 	//unsigned int*						m_nearbyDrawables;
 };
 
