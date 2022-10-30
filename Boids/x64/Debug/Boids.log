@@ -1,12 +1,14 @@
 ﻿  Boid.cpp
-C:\Users\s011308k\Documents\GitHub\FishSchooling\Boids\Boid.cpp(45,40): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-C:\Users\s011308k\Documents\GitHub\FishSchooling\Boids\Boid.cpp(201,29): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-C:\Users\s011308k\Documents\GitHub\FishSchooling\Boids\Boid.cpp(256,32): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\Boid.cpp(46,40): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\Boid.cpp(211,29): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\Boid.cpp(266,32): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
   Predator.cpp
-C:\Users\s011308k\Documents\GitHub\FishSchooling\Boids\Predator.cpp(16,41): warning C4100: 'drawList': unreferenced formal parameter
   main.cpp
-C:\Users\s011308k\Documents\GitHub\FishSchooling\Boids\main.cpp(91,56): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\s011308k\Documents\GitHub\FishSchooling\Boids\main.cpp(91,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\s011308k\Documents\GitHub\FishSchooling\Boids\main.cpp(186,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(92,49): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(103,56): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(103,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(200,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(724,9): warning C4456: declaration of 'i' hides previous local declaration
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(720,19): message : see declaration of 'i'
   Generating Code...
-  Boids.vcxproj -> C:\Users\s011308k\Documents\GitHub\FishSchooling\x64\Debug\Boids.exe
+  Boids.vcxproj -> C:\Users\szymo\Programming\AI\FishSchooling\x64\Debug\Boids.exe

@@ -5,6 +5,7 @@
 
 Boid::Boid()
 {
+	m_isDead = false;
 	m_flag = fishBoid;
 	m_position = XMFLOAT3(0, 0, 0);
 	m_direction = XMFLOAT3(0, 1, 0);
@@ -67,71 +68,80 @@ void Boid::setDirection(XMFLOAT3 direction)
 
 void Boid::update(float t, vecBoid* boidList)
 {
-	// create a list of nearby boids
-	vecBoid nearBoids = nearbyBoids(boidList);
+	if (!m_isDead) {
+		// create a list of nearby boids
+		vecBoid nearBoids = nearbyBoids(boidList);
 
-	// NOTE these functions should always return a normalised vector
-	XMFLOAT3  vSeparation = calculateSeparationVector(&nearBoids);
-	XMFLOAT3  vAlignment = calculateAlignmentVector(&nearBoids);
-	XMFLOAT3  vCohesion = calculateCohesionVector(&nearBoids, boidList);
+		// NOTE these functions should always return a normalised vector
+		XMFLOAT3  vSeparation = calculateSeparationVector(&nearBoids);
+		XMFLOAT3  vAlignment = calculateAlignmentVector(&nearBoids);
+		XMFLOAT3  vCohesion = calculateCohesionVector(&nearBoids, boidList);
 
-	//weight * ( 1 - dist/maxdist)   - power gets bigger the shorter the distance
-	//weight * (dist/maxdist)        - power gets smaller the shorter the distance
+		//weight * ( 1 - dist/maxdist)   - power gets bigger the shorter the distance
+		//weight * (dist/maxdist)        - power gets smaller the shorter the distance
 
-	//update with strength modifiers
-	vSeparation = multiplyFloat3(vSeparation, SEPARATION_STRENGTH);
-	vAlignment = multiplyFloat3(vAlignment, ALIGNMENT_STRENGTH);
-	vCohesion = multiplyFloat3(vCohesion, COHESION_STRENGTH);
+		//update with strength modifiers
+		vSeparation = multiplyFloat3(vSeparation, SEPARATION_STRENGTH);
+		vAlignment = multiplyFloat3(vAlignment, ALIGNMENT_STRENGTH);
+		vCohesion = multiplyFloat3(vCohesion, COHESION_STRENGTH);
 
 
-	XMFLOAT3 vTotal = addFloat3(vCohesion, vAlignment);
-	vTotal = addFloat3(vTotal, vSeparation);
-	float magnitude = magnitudeFloat3(vTotal);
-	vTotal = normaliseFloat3(vTotal);
+		XMFLOAT3 vTotal = addFloat3(vCohesion, vAlignment);
+		vTotal = addFloat3(vTotal, vSeparation);
+		float magnitude = magnitudeFloat3(vTotal);
+		vTotal = normaliseFloat3(vTotal);
 
-	bool directionChange = false;
-	XMFLOAT3 newDirection;
-	if (magnitude > 0) {
-		newDirection = vTotal;
-		directionChange = true;
+		bool directionChange = false;
+		XMFLOAT3 newDirection;
+		if (magnitude > 0) {
+			newDirection = vTotal;
+			directionChange = true;
+		}
+		else {
+			newDirection = XMFLOAT3(0, 0, 0);
+		}
+
+		////Rotate the direction vector by X angles. Direction left or right at random.
+		//float xRotation;
+		//float yRotation;
+
+		//int randomizer = rand() % 3;
+		//if (randomizer == 0) {
+		//	xRotation = (m_direction.x * cos(DIRECTION_MODIFIER_ANGLE * DELTA_TIME)) - (m_direction.y * sin(DIRECTION_MODIFIER_ANGLE * DELTA_TIME));
+		//	yRotation = (m_direction.x * sin(DIRECTION_MODIFIER_ANGLE * DELTA_TIME)) + (m_direction.y * cos(DIRECTION_MODIFIER_ANGLE * DELTA_TIME));
+		//}
+		//else if (randomizer == 1) {
+		//	xRotation = (m_direction.x * cos(DIRECTION_MODIFIER_ANGLE * DELTA_TIME)) - (m_direction.y * sin(DIRECTION_MODIFIER_ANGLE * DELTA_TIME));
+		//	yRotation = (m_direction.x * sin(DIRECTION_MODIFIER_ANGLE * DELTA_TIME)) + (m_direction.y * cos(DIRECTION_MODIFIER_ANGLE * DELTA_TIME));
+		//}
+		//else {
+		//	xRotation = m_direction.x;
+		//	yRotation = m_direction.y;
+		//}
+		//m_direction = XMFLOAT3(xRotation, yRotation, 0.0f);
+		// 
+
+		//damped direction change
+		if (directionChange) {
+			m_direction = addFloat3(m_direction, multiplyFloat3(newDirection, m_turningDelta));
+			normaliseFloat3(m_direction);
+		}
+
+		//update the position of the fish, based on direction and speed
+		m_position = addFloat3(multiplyFloat3(multiplyFloat3(m_direction, DELTA_TIME), m_speed), m_position);
+
+		// m_direction = ... ;// this should always have a magnitude > 0 - ideally 1
+		// m_position = ... ;
 	}
-	else {
-		newDirection = XMFLOAT3(0,0,0);
-	}
-
-	////Rotate the direction vector by X angles. Direction left or right at random.
-	//float xRotation;
-	//float yRotation;
-
-	//int randomizer = rand() % 3;
-	//if (randomizer == 0) {
-	//	xRotation = (m_direction.x * cos(DIRECTION_MODIFIER_ANGLE * DELTA_TIME)) - (m_direction.y * sin(DIRECTION_MODIFIER_ANGLE * DELTA_TIME));
-	//	yRotation = (m_direction.x * sin(DIRECTION_MODIFIER_ANGLE * DELTA_TIME)) + (m_direction.y * cos(DIRECTION_MODIFIER_ANGLE * DELTA_TIME));
-	//}
-	//else if (randomizer == 1) {
-	//	xRotation = (m_direction.x * cos(DIRECTION_MODIFIER_ANGLE * DELTA_TIME)) - (m_direction.y * sin(DIRECTION_MODIFIER_ANGLE * DELTA_TIME));
-	//	yRotation = (m_direction.x * sin(DIRECTION_MODIFIER_ANGLE * DELTA_TIME)) + (m_direction.y * cos(DIRECTION_MODIFIER_ANGLE * DELTA_TIME));
-	//}
-	//else {
-	//	xRotation = m_direction.x;
-	//	yRotation = m_direction.y;
-	//}
-	//m_direction = XMFLOAT3(xRotation, yRotation, 0.0f);
-	// 
-
-	//damped direction change
-	if (directionChange) {
-		m_direction = addFloat3(m_direction, multiplyFloat3(newDirection, m_turningDelta));
-		normaliseFloat3(m_direction);
-	}
-
-	//update the position of the fish, based on direction and speed
-	m_position = addFloat3(multiplyFloat3(multiplyFloat3(m_direction, DELTA_TIME), m_speed), m_position);
-	
-	// m_direction = ... ;// this should always have a magnitude > 0 - ideally 1
-	// m_position = ... ;
-
 	DrawableGameObject::update(t);
+}
+
+void Boid::die()
+{
+	//when boid dies, turn off behaviour and teleport far far away.
+	m_isDead = true;
+	m_position = XMFLOAT3(10000, 0, 0);
+	
 }
 
 XMFLOAT3 Boid::calculateSeparationVector(vecBoid* boidList)
@@ -143,7 +153,7 @@ XMFLOAT3 Boid::calculateSeparationVector(vecBoid* boidList)
 	float distanceNearest = -1;
 	//find boid that is closest to this boid. steer away from it.
 	for (Boid* boid : *boidList) {
-		if (boid == this || m_flag == predatorBoid)
+		if (boid == this || boid->getFlag() == predatorBoid)
 			continue;
 
 		XMFLOAT3 mePos = m_position;
@@ -182,7 +192,7 @@ XMFLOAT3 Boid::calculateAlignmentVector(vecBoid* boidList)
 	// your code here
 	int nearbyCount = 0;
 	for (Boid* boid : *boidList) {
-		if (boid == this || m_flag == predatorBoid)
+		if (boid == this || boid->getFlag() == predatorBoid)
 			continue;
 		XMFLOAT3 mePos = m_position;
 		XMFLOAT3 itPos = *boid->getPosition();
@@ -221,7 +231,7 @@ XMFLOAT3 Boid::calculateCohesionVector(vecBoid* boidList, vecBoid* fullList)
 	if (boidList->size() < SMALL_FLOCK_NUMBER) {
 		smallFlock = true;
 		for (Boid* boid : *fullList) {
-			if (boid == this || m_flag == predatorBoid) {
+			if (boid == this || boid->getFlag() == predatorBoid) {
 				continue;
 			}
 			XMFLOAT3 mePos = m_position;
@@ -239,7 +249,7 @@ XMFLOAT3 Boid::calculateCohesionVector(vecBoid* boidList, vecBoid* fullList)
 	}
 	else {
 		for (Boid* boid : *boidList) {
-			if (boid == this || m_flag == predatorBoid) {
+			if (boid == this || boid->getFlag() == predatorBoid) {
 				continue;
 			}
 			XMFLOAT3 mePos = m_position;
@@ -272,6 +282,39 @@ XMFLOAT3 Boid::calculateCohesionVector(vecBoid* boidList, vecBoid* fullList)
 	 
 
 	
+}
+
+Boid* Boid::findClosestBoid(vecBoid* boidList)
+{
+	if (boidList == nullptr)
+		return nullptr;
+	Boid* outBoid = nullptr;
+	int nearbyCount = 0;
+	float distanceNearest = -1;
+	//find boid that is closest to this boid. steer away from it.
+	for (Boid* boid : *boidList) {
+		if (boid == this || boid->getFlag() == predatorBoid)
+			continue;
+
+		XMFLOAT3 mePos = m_position;
+		XMFLOAT3 itPos = *boid->getPosition();
+		XMFLOAT3 directionNearest = subtractFloat3(itPos, mePos);
+		float d = magnitudeFloat3(directionNearest);
+		if ((d < distanceNearest) || distanceNearest < 0) {
+			distanceNearest = d;
+			outBoid = boid;
+		}
+		nearbyCount++;
+
+	}
+
+
+	if (outBoid == nullptr) {
+		return nullptr;
+	}
+	else {
+		return outBoid;
+	}
 }
 
 
@@ -318,6 +361,24 @@ XMFLOAT3 Boid::divideFloat3(XMFLOAT3& f1, const float scalar)
 	return out;
 }
 
+bool Boid::checkCollision(Boid* other)
+{
+	//optimize by only doing the calculation once. requires a small amount of extra memory.
+	float meHalfLength = m_scale / 2;
+	float itHalfLength = other->getScale() / 2;
+	XMFLOAT3 itPos = *other->getPosition();
+
+
+	//check square collision between this boid and another boid. return true if collision occured. 
+	if (m_position.x + meHalfLength > itPos.x - itHalfLength &&
+		m_position.x - meHalfLength < itPos.x + itHalfLength &&
+		m_position.y + meHalfLength > itPos.y - itHalfLength &&
+		m_position.y - meHalfLength < itPos.y + itHalfLength) {
+		return true;
+	}
+	else return false;
+}
+
 float Boid::magnitudeFloat3(XMFLOAT3& f1)
 {
 	return sqrt((f1.x * f1.x) + (f1.y * f1.y) + (f1.z * f1.z));
@@ -342,7 +403,7 @@ vecBoid Boid::nearbyBoids(vecBoid* boidList)
 
 	for (Boid* boid : *boidList) {
 		// ignore self
-		if (boid == this || m_flag == predatorBoid)
+		if (boid == this || boid->getFlag() == predatorBoid)
 			continue;
 
 		// get the distance between the two

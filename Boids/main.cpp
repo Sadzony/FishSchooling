@@ -73,6 +73,7 @@ int						g_viewWidth;
 int						g_viewHeight;
 
 vecBoid					g_Boids;
+vecBoid                 g_deadBoids;
 Predator                g_predatorBoid;
 
 
@@ -81,6 +82,17 @@ void placeFish()
 {
     g_Boids.clear();
 	HRESULT hr;
+
+    for (int i = 0; i < PREDATOR_COUNT; i++) 
+    {
+        Predator* predator = new Predator();
+        hr = predator->initMesh(g_pd3dDevice, g_pImmediateContext);
+        if (FAILED(hr))
+            return;
+        predator->setPosition(XMFLOAT3(-250, (i * 10), 0));
+        g_Boids.push_back(predator);
+    }
+
     int fishW = (int)(sqrt(FISH_COUNT));
     for (int i = 0; i < fishW; i++) {
         for (int j = 0; j < fishW; j++) {
@@ -92,13 +104,15 @@ void placeFish()
             g_Boids.push_back(fish);
         }
     }
-    Predator* predator = new Predator();
-    hr = predator->initMesh(g_pd3dDevice, g_pImmediateContext);
-    if (FAILED(hr))
-        return;
-    predator->setPosition(XMFLOAT3(-250, 0, 0));
-    g_Boids.push_back(predator);
-
+}
+void killAt(int vecPos)
+{
+    //remove at index in vector
+    std::vector<Boid*>::iterator dead = g_Boids.erase(g_Boids.begin() + vecPos);
+    //call death method on dead boid
+    (*dead)->die();
+    //add to list of dead boids
+    g_deadBoids.push_back(*dead);
 }
 
 //--------------------------------------------------------------------------------------
@@ -706,6 +720,23 @@ void Render()
 	for(unsigned int i=0; i< g_Boids.size(); i++)
 	{ 
 		g_Boids[i]->update(t, &g_Boids);
+        //predators are first in the g_Boids vector, so predators are at first x positions in g_Boids
+        for (int i = 0; i < PREDATOR_COUNT; i++) {
+
+            //check collisions for everything that's not a predator
+            for (int j = 0; j < g_Boids.size(); j++) {
+                if (g_Boids.at(j)->getFlag() == predatorBoid)
+                    continue;
+                if (g_Boids.at(i)->checkCollision(g_Boids.at(j)))
+                {
+                    //if colliding with predator, kill it.
+                    if (g_Boids.at(j)->m_isDead == false)
+                    {
+                        killAt(j);
+                    }
+                }
+            }
+        }
 		XMMATRIX vp = g_View * g_Projection;
 		Boid* dob = (Boid*)g_Boids[i];
 
