@@ -363,17 +363,17 @@ XMFLOAT3 Boid::divideFloat3(XMFLOAT3& f1, const float scalar)
 
 bool Boid::checkCollision(Boid* other)
 {
-	//optimize by only doing the calculation once. requires a small amount of extra memory.
-	float meHalfLength = m_scale / 2;
-	float itHalfLength = other->getScale() / 2;
+	//optimize by only doing the dereference once. requires a small amount of extra memory.
+	float meBounds = (m_scale / 2) * COLLISION_BOUNDS_MULTIPLIER; 
+	float itBounds = (other->getScale() / 2) * COLLISION_BOUNDS_MULTIPLIER;
 	XMFLOAT3 itPos = *other->getPosition();
 
 
 	//check square collision between this boid and another boid. return true if collision occured. 
-	if (m_position.x + meHalfLength > itPos.x - itHalfLength &&
-		m_position.x - meHalfLength < itPos.x + itHalfLength &&
-		m_position.y + meHalfLength > itPos.y - itHalfLength &&
-		m_position.y - meHalfLength < itPos.y + itHalfLength) {
+	if (m_position.x + meBounds > itPos.x - itBounds &&
+		m_position.x - meBounds < itPos.x + itBounds &&
+		m_position.y + meBounds > itPos.y - itBounds &&
+		m_position.y - meBounds < itPos.y + itBounds) {
 		return true;
 	}
 	else return false;

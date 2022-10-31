@@ -81,6 +81,7 @@ Predator                g_predatorBoid;
 void placeFish()
 {
     g_Boids.clear();
+    g_deadBoids.clear();
 	HRESULT hr;
 
     for (int i = 0; i < PREDATOR_COUNT; i++) 
@@ -107,12 +108,17 @@ void placeFish()
 }
 void killAt(int vecPos)
 {
+    //find dead boid
+    Boid* dead = g_Boids.at(vecPos);
+    
     //remove at index in vector
-    std::vector<Boid*>::iterator dead = g_Boids.erase(g_Boids.begin() + vecPos);
+    g_Boids.erase(g_Boids.begin() + vecPos);
+
     //call death method on dead boid
-    (*dead)->die();
+    dead->die();
+
     //add to list of dead boids
-    g_deadBoids.push_back(*dead);
+    g_deadBoids.push_back(dead);
 }
 
 //--------------------------------------------------------------------------------------
@@ -561,8 +567,14 @@ void CleanupDevice()
 	{
 		delete g_Boids[i];
 	}
+    g_Boids.clear();
+    for (unsigned int i = 0; i < g_deadBoids.size(); i++)
+    {
+        delete g_deadBoids[i];
+    }
+    g_deadBoids.clear();
 
-	g_Boids.clear();
+
 
     // Remove any bound render target or depth/stencil buffer
     ID3D11RenderTargetView* nullViews[] = { nullptr };

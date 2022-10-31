@@ -4,11 +4,11 @@ C:\Users\szymo\Programming\AI\FishSchooling\Boids\Boid.cpp(211,29): warning C424
 C:\Users\szymo\Programming\AI\FishSchooling\Boids\Boid.cpp(266,32): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
   Predator.cpp
   main.cpp
-C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(92,49): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(103,56): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(103,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(200,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(724,9): warning C4456: declaration of 'i' hides previous local declaration
-C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(720,19): message : see declaration of 'i'
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(93,49): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(104,56): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(104,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(206,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(736,9): warning C4456: declaration of 'i' hides previous local declaration
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(732,19): message : see declaration of 'i'
   Generating Code...
   Boids.vcxproj -> C:\Users\szymo\Programming\AI\FishSchooling\x64\Debug\Boids.exe

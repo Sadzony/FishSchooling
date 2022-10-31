@@ -9,7 +9,7 @@ Predator::Predator()
 	m_turningDelta = SMOOTH_VALUE_PREDATOR;
 	m_speed = PREDATOR_SPEED;
 	createRandomDirection();
-	setScale(5);
+	setScale(7);
 }
 
 Predator::~Predator()
