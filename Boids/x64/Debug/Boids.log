@@ -1,14 +1,20 @@
 ﻿  Boid.cpp
 C:\Users\szymo\Programming\AI\FishSchooling\Boids\Boid.cpp(46,40): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-C:\Users\szymo\Programming\AI\FishSchooling\Boids\Boid.cpp(211,29): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-C:\Users\szymo\Programming\AI\FishSchooling\Boids\Boid.cpp(266,32): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\Boid.cpp(214,29): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\Boid.cpp(269,32): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\Boid.cpp(436,47): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\Boid.cpp(515,22): warning C4127: conditional expression is constant
   Predator.cpp
   main.cpp
-C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(93,49): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(104,56): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(104,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(206,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(736,9): warning C4456: declaration of 'i' hides previous local declaration
-C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(732,19): message : see declaration of 'i'
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(102,49): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(113,56): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(113,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(137,19): warning C4244: 'argument': conversion from '__int64' to 'int', possible loss of data
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(224,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\szymo\Programming\AI\FishSchooling\Boids\main.cpp(796,97): warning C4244: '=': conversion from '_Rep' to 'float', possible loss of data
+          with
+          [
+              _Rep=__int64
+          ]
   Generating Code...
   Boids.vcxproj -> C:\Users\szymo\Programming\AI\FishSchooling\x64\Debug\Boids.exe

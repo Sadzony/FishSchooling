@@ -1,6 +1,7 @@
 #pragma once
 #include "DrawableGameObject.h"
 #include "defines.h"
+#include "sstream"
 enum FishFlag {
 	fishBoid,
 	predatorBoid
@@ -15,21 +16,29 @@ public:
 	XMFLOAT3*							getDirection() { return &m_direction; }
 	FishFlag							getFlag() { return m_flag; }
 	float								getScale() { return m_scale; }
+	bool								getSmallFlock() { return m_isInSmallFlock; }
 	void								checkIsOnScreenAndFix(const XMMATRIX&  view, const XMMATRIX&  proj);
 	virtual void						update(float t, vecBoid* drawList);
 
-	bool								m_isDead;
+	bool								isDead = false;
 	void								die();
 	bool								checkCollision(Boid* other);
+	bool								checkCollisionCircle(Boid* other);
+
+	string								returnDiagString();
+	void								findDeathData(vecBoid* fullList, float time);
 
 protected:
 	void								setDirection(XMFLOAT3 direction);
 
 	vecBoid								nearbyBoids(vecBoid* boidList);
+
 	XMFLOAT3							calculateSeparationVector(vecBoid* drawList);
 	XMFLOAT3							calculateAlignmentVector(vecBoid* drawList);
 	XMFLOAT3							calculateCohesionVector(vecBoid* drawList, vecBoid* fullList);
-	Boid*								findClosestBoid(vecBoid* boidList);
+	XMFLOAT3							calculateFleeVector(vecBoid* fullList);
+
+	virtual Boid*						findClosestBoid(vecBoid* boidList);
 	void								createRandomDirection();
 	void								randomizeStats();
 	float								randomizeWithinFraction(double value, float fraction);
@@ -51,6 +60,10 @@ protected:
 	float								m_scale;
 	float								m_turningDelta;
 	FishFlag							m_flag;
+	bool								m_isInSmallFlock = false;
+	float								m_timeOfDeath = 0.0f;
+	int									m_boidsAtDeath = 0;
+	XMFLOAT3							m_deathPosition;
 	//unsigned int*						m_nearbyDrawables;
 };
 

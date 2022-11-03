@@ -16,10 +16,13 @@
 
 #include "main.h"
 
-#include <time.h>  
+#include <fstream>
+#include <time.h>
+#include <chrono>
 #include "Boid.h"
 #include "Predator.h"
 #include "defines.h"
+
 
 
 //--------------------------------------------------------------------------------------
@@ -38,6 +41,7 @@ void		CleanupDevice();
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 void		Render();
 void		OutputValue(float f, string name);
+void        OutputString(string stringToPrint);
 
 
 //--------------------------------------------------------------------------------------
@@ -76,6 +80,11 @@ vecBoid					g_Boids;
 vecBoid                 g_deadBoids;
 Predator                g_predatorBoid;
 
+//start time of the application
+std::chrono::time_point<std::chrono::system_clock> startTime;
+float elapsedMs = 0.0f;
+bool dataPrinted = false;
+
 
 
 void placeFish()
@@ -110,16 +119,25 @@ void killAt(int vecPos)
 {
     //find dead boid
     Boid* dead = g_Boids.at(vecPos);
-    
+
     //remove at index in vector
     g_Boids.erase(g_Boids.begin() + vecPos);
 
     //call death method on dead boid
+    dead->findDeathData(&g_Boids, elapsedMs);
     dead->die();
 
     //add to list of dead boids
     g_deadBoids.push_back(dead);
 }
+void kill(Boid* dead) {
+    //if boid to kill is found in g_Bouds
+    std::vector<Boid*>::iterator it = std::find(g_Boids.begin(), g_Boids.end(), dead);
+    if (it != g_Boids.end()) {
+        killAt(it - g_Boids.begin()); //finds the index and kills the boid
+    }
+}
+
 
 //--------------------------------------------------------------------------------------
 // Entry point to the program. Initializes everything and goes into a message processing 
@@ -535,6 +553,8 @@ HRESULT		InitMesh()
 
 
 	placeFish();
+    startTime = std::chrono::system_clock::now();
+
 
 	return hr;
 }
@@ -728,27 +748,14 @@ void Render()
 
     // Clear the depth buffer to 1.0 (max depth)
     g_pImmediateContext->ClearDepthStencilView( g_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0 );
+    
+
 
 	for(unsigned int i=0; i< g_Boids.size(); i++)
 	{ 
 		g_Boids[i]->update(t, &g_Boids);
-        //predators are first in the g_Boids vector, so predators are at first x positions in g_Boids
-        for (int i = 0; i < PREDATOR_COUNT; i++) {
 
-            //check collisions for everything that's not a predator
-            for (int j = 0; j < g_Boids.size(); j++) {
-                if (g_Boids.at(j)->getFlag() == predatorBoid)
-                    continue;
-                if (g_Boids.at(i)->checkCollision(g_Boids.at(j)))
-                {
-                    //if colliding with predator, kill it.
-                    if (g_Boids.at(j)->m_isDead == false)
-                    {
-                        killAt(j);
-                    }
-                }
-            }
-        }
+        
 		XMMATRIX vp = g_View * g_Projection;
 		Boid* dob = (Boid*)g_Boids[i];
 
@@ -772,6 +779,39 @@ void Render()
 		// draw 
 		g_Boids[i]->draw(g_pImmediateContext);
 	}
+    //predators are first in the g_Boids vector, so predators are at first x positions in g_Boids
+    //check if the closest boid is colliding with the predator. kill if yes.
+    for (int i = 0; i < PREDATOR_COUNT; i++) {
+        Predator* pred = (Predator*)g_Boids.at(i);
+        Boid* boid = pred->getNearestBoid();
+        if (pred->checkCollisionPredator()) {
+            if (boid->isDead == false)
+                kill(boid);
+        }
+    }
+
+    //chrono timer
+    auto timeNow = std::chrono::system_clock::now();
+    //finds how many milliseconds have elapsed since the beginning of the application
+    elapsedMs = std::chrono::duration_cast<std::chrono::milliseconds>(timeNow - startTime).count();
+
+    if (elapsedMs > DIAGNOSTIC_TIME && !dataPrinted) {
+        //create the text file and open it for writing, discarding all data inside
+        ofstream diagFile;
+        diagFile.open("results.txt", std::ofstream::out | std::ofstream::trunc);
+
+        //write the data for each dead boid
+        for (Boid* dead : g_deadBoids) {
+            string diag = dead->returnDiagString();
+            diagFile << diag;
+        }
+
+
+        //give debug output
+        OutputString("Diagnostic Printed.");
+        dataPrinted = true;
+        diagFile.close();
+    }
 
     // Present our back buffer to our front buffer
     g_pSwapChain->Present( 0, 0 );
@@ -783,4 +823,10 @@ void OutputValue(float f, string name)
 	char sz[1024] = { 0 };
 	sprintf_s(sz, "%s: %f\n", name.c_str(), f);
 	OutputDebugStringA(sz);
+}
+void OutputString(string stringToPrint)
+{
+    char sz[1024] = { 0 };
+    sprintf_s(sz, "%s\n", stringToPrint.c_str());
+    OutputDebugStringA(sz);
 }
