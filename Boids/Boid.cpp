@@ -1,7 +1,7 @@
 #include "Boid.h"
 
 
-
+#include <cmath>
 
 Boid::Boid()
 {
@@ -33,9 +33,11 @@ void Boid::createRandomDirection()
 void Boid::randomizeStats()
 {
 	m_speed = randomizeWithinFraction(FISH_SPEED, 0.4f);
-	m_sightDistance = randomizeWithinFraction(BOID_SIGHT_RANGE, 0.15f);;
+	m_sightDistance = randomizeWithinFraction(BOID_SIGHT_RANGE, 0.15f);
+	m_sightArc = 30.0f + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (180.0f - 30.0f)));
 	m_scale = FISH_SCALE;
 	m_turningDelta = randomizeWithinFraction(SMOOTH_VALUE_FISH, 0.25f);
+
 }
 
 float Boid::randomizeWithinFraction(double value, float fraction)
@@ -303,10 +305,21 @@ XMFLOAT3 Boid::calculateFleeVector(vecBoid* fullList)
 		float d = magnitudeFloat3(direction);
 		if (d < m_sightDistance) {
 			direction = normaliseFloat3(direction);
-			float weight = 1 - (d / m_sightDistance);
-			direction = multiplyFloat3(direction, weight);
-			outV = addFloat3(outV, direction);
-			predatorCount++;
+			XMFLOAT3 normalisedDirection = m_direction;
+			float dot = dotFloat3(direction, normaliseFloat3(normalisedDirection));
+			if (dot < -1)
+				dot = -1;
+			else if (dot > 1)
+				dot = 1;
+			float angle = acos(dot);
+			angle = angle * (180.0f / 3.14159265358979323846f);
+			if (angle < m_sightArc / 2)
+			{
+				float weight = 1 - (d / m_sightDistance);
+				direction = multiplyFloat3(direction, weight);
+				outV = addFloat3(outV, direction);
+				predatorCount++;
+			}
 		}
 	}
 	if (predatorCount == 0) {
@@ -443,6 +456,11 @@ float Boid::magnitudeFloat3(XMFLOAT3& f1)
 	return sqrt((f1.x * f1.x) + (f1.y * f1.y) + (f1.z * f1.z));
 }
 
+float Boid::dotFloat3(const XMFLOAT3& f1, const XMFLOAT3& f2)
+{
+	return f1.x * f2.x + f1.y * f2.y + f1.z * f2.z;
+}
+
 XMFLOAT3 Boid::normaliseFloat3(XMFLOAT3& f1)
 {
 	float length = sqrt((f1.x * f1.x) + (f1.y * f1.y) + (f1.z * f1.z));
@@ -470,7 +488,16 @@ vecBoid Boid::nearbyBoids(vecBoid* boidList)
 		XMFLOAT3 vDiff = subtractFloat3(m_position, vB);
 		float l = magnitudeFloat3(vDiff);
 		if (l < m_sightDistance) {
-			nearBoids.push_back(boid);
+			XMFLOAT3 normalisedDirection = m_direction;
+			float dot = dotFloat3(normaliseFloat3(vDiff), normaliseFloat3(normalisedDirection));
+			if (dot < -1)
+				dot = -1;
+			else if (dot > 1)
+				dot = 1;
+			float angle = acos(dot);
+			angle = angle * (180.0f / 3.14159265358979323846f);
+			if(angle < m_sightArc / 2)
+				nearBoids.push_back(boid);
 		}
 	}
 

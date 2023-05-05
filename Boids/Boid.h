@@ -37,6 +37,7 @@ protected:
 	XMFLOAT3							calculateAlignmentVector(vecBoid* drawList);
 	XMFLOAT3							calculateCohesionVector(vecBoid* drawList, vecBoid* fullList);
 	XMFLOAT3							calculateFleeVector(vecBoid* fullList);
+								
 
 	virtual Boid*						findClosestBoid(vecBoid* boidList);
 	void								createRandomDirection();
@@ -47,6 +48,7 @@ protected:
 	XMFLOAT3							subtractFloat3(XMFLOAT3& f1, XMFLOAT3& f2);
 	XMFLOAT3							normaliseFloat3(XMFLOAT3& f1);
 	float								magnitudeFloat3(XMFLOAT3& f1);
+	float								dotFloat3(const XMFLOAT3& f1, const XMFLOAT3& f2);
 	XMFLOAT3							multiplyFloat3(const XMFLOAT3& f1, const float scalar);
 	XMFLOAT3							divideFloat3(XMFLOAT3& f1, const float scalar);
 
@@ -57,6 +59,7 @@ protected:
 	XMFLOAT3							m_direction;
 	float								m_speed;
 	float								m_sightDistance;
+	float								m_sightArc;
 	float								m_scale;
 	float								m_turningDelta;
 	FishFlag							m_flag;
