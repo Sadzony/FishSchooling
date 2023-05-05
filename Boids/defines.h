@@ -2,15 +2,15 @@
 
 #define DELTA_TIME 0.018f
 
-#define FISH_COUNT 200
+#define FISH_COUNT 400
 #define PREDATOR_COUNT 1
 
 #define FISH_SCALE 1
 #define PREDATOR_SCALE 7
 
-#define FISH_SPEED 25.0f
+#define FISH_SPEED 35.0f
 #define FISH_SPEED_VARIANCE 0.75f //what fraction of speed does the randomizer vary in
-#define PREDATOR_SPEED 32.0f
+#define PREDATOR_SPEED 45.0f
 
 #define BOID_SIGHT_RANGE		40.0f	// how far boids can see
 #define BOID_SIGHT_VARIANCE 0.6f //what fraction of sight range does the randomizer vary in

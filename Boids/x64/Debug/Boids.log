@@ -1,11 +1,10 @@
 ﻿  Boid.cpp
 D:\FishSchooling\Boids\Boid.cpp(48,40): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-D:\FishSchooling\Boids\Boid.cpp(216,29): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-D:\FishSchooling\Boids\Boid.cpp(271,32): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-D:\FishSchooling\Boids\Boid.cpp(449,47): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-D:\FishSchooling\Boids\Boid.cpp(542,22): warning C4127: conditional expression is constant
-  DDSTextureLoader.cpp
-  DrawableGameObject.cpp
+D:\FishSchooling\Boids\Boid.cpp(222,29): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+D:\FishSchooling\Boids\Boid.cpp(277,32): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+D:\FishSchooling\Boids\Boid.cpp(456,47): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\FishSchooling\Boids\Boid.cpp(549,22): warning C4127: conditional expression is constant
+  Predator.cpp
   main.cpp
 D:\FishSchooling\Boids\main.cpp(102,49): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 D:\FishSchooling\Boids\main.cpp(113,56): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
@@ -17,6 +16,5 @@ D:\FishSchooling\Boids\main.cpp(796,97): warning C4244: '=': conversion from '_R
           [
               _Rep=__int64
           ]
-  Predator.cpp
   Generating Code...
   Boids.vcxproj -> D:\FishSchooling\x64\Debug\Boids.exe

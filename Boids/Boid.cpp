@@ -34,7 +34,7 @@ void Boid::randomizeStats()
 {
 	m_speed = randomizeWithinFraction(FISH_SPEED, 0.4f);
 	m_sightDistance = randomizeWithinFraction(BOID_SIGHT_RANGE, 0.15f);
-	m_sightArc = 30.0f + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (180.0f - 30.0f)));
+	m_sightArc = 60.0f + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (180.0f - 60.0f)));
 	m_scale = FISH_SCALE;
 	m_turningDelta = randomizeWithinFraction(SMOOTH_VALUE_FISH, 0.25f);
 
@@ -126,11 +126,17 @@ void Boid::update(float t, vecBoid* boidList)
 		//m_direction = XMFLOAT3(xRotation, yRotation, 0.0f);
 		// 
 
+		if (m_direction.z > 0)
+			m_direction.z = 0;
+		else if (m_direction.z < 0)
+			m_direction.z = 0;
+
 		//damped direction change
 		if (directionChange) {
 			m_direction = addFloat3(m_direction, multiplyFloat3(newDirection, m_turningDelta));
 			normaliseFloat3(m_direction);
 		}
+
 
 		//update the position of the fish, based on direction and speed
 		m_position = addFloat3(multiplyFloat3(multiplyFloat3(m_direction, DELTA_TIME), m_speed), m_position);
@@ -305,6 +311,7 @@ XMFLOAT3 Boid::calculateFleeVector(vecBoid* fullList)
 		float d = magnitudeFloat3(direction);
 		if (d < m_sightDistance) {
 			direction = normaliseFloat3(direction);
+			direction.z = 0;
 			XMFLOAT3 normalisedDirection = m_direction;
 			float dot = dotFloat3(direction, normaliseFloat3(normalisedDirection));
 			if (dot < -1)
@@ -439,7 +446,7 @@ string Boid::returnDiagString()
 {
 	void* mypntr = this;
 	std::stringstream outss;
-	outss << mypntr << "died at " << m_timeOfDeath << ". Speed: " << m_speed << ". Sight range: " << m_sightDistance << ". Turning ability: " << m_turningDelta << ". There was " << m_boidsAtDeath << " nearby boids at time of death." << ". The boid was located at: x: " << m_deathPosition.x << " y: " << m_deathPosition.y << endl;
+	outss << mypntr << "died at " << m_timeOfDeath << ". Speed: " << m_speed << ". Sight range: " << m_sightDistance << ". Sight degrees: " << m_sightArc << ". Turning ability: " << m_turningDelta << ". There was " << m_boidsAtDeath << " nearby boids at time of death." << ". The boid was located at: x: " << m_deathPosition.x << " y: " << m_deathPosition.y << endl;
 
 	return outss.str();
 }

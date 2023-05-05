@@ -8,6 +8,7 @@ Predator::Predator()
 	m_position = XMFLOAT3(0, 0, 0);
 	m_direction = XMFLOAT3(0, 1, 0);
 	m_sightDistance = PREDATOR_SIGHT_RANGE;
+	m_sightArc = 180.0f;
 	m_turningDelta = SMOOTH_VALUE_PREDATOR;
 	m_speed = PREDATOR_SPEED;
 	createRandomDirection();
@@ -35,6 +36,10 @@ void Predator::update(float t, vecBoid* boidList)
 		m_distanceToTarget = magnitudeFloat3(newDirection);
 		normaliseFloat3(newDirection);
 	}
+	if (m_direction.z > 0)
+		m_direction.z = 0;
+	else if (m_direction.z < 0)
+		m_direction.z = 0;
 
 	if (directionChange) {
 		m_direction = addFloat3(m_direction, multiplyFloat3(newDirection, m_turningDelta));
