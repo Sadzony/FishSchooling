@@ -19,7 +19,7 @@ Predator::~Predator()
 {
 }
 
-void Predator::update(float t, vecBoid* boidList)
+void Predator::update(float t, vecBoid* boidList, const XMMATRIX& view, const XMMATRIX& proj)
 {
 	bool directionChange = false;
 	XMFLOAT3 newDirection = XMFLOAT3(0, 0, 0);
