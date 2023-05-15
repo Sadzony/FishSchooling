@@ -65,6 +65,7 @@ protected:
 	float								m_cohesionWeight;
 	float								m_cohesionMultiplier;
 	float								m_separationWeight;
+	float								m_separationDistance;
 	float								m_alignmentWeight;
 	float								m_fleeWeight;
 	int									m_smallFlockNumber;

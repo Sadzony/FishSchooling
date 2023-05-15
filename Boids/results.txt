@@ -1,336 +1,228 @@
-000001E08B1BD150 died at 3993. Parameters:  
-Sight range : 83.9993
-Sight degrees : 148.784
-Turning ability : 0.0428754
-Cohesion Weight : 3.11914
-Cohesion Multiplier : 2.6
-Separation Weight : 2.44975
-Alignment Weight : 6.50053
-Flee Weight : 18.0002
+000001EB8ECD4430 died at 5799. Parameters:  
+Sight range : 75.8222
+Sight degrees : 142.027
+Turning ability : 0.0317261
+Cohesion Weight : 2.7136
+Cohesion Multiplier : 1.22217
+Separation Weight : 12.2495
+Alignment Weight : 5.67964
+Flee Weight : 19.171
+Small Flock definition : 16
+There was 12 nearby boids at time of death. The boid was located at : x: -67.0955 y : 71.5787
+
+000001EB8F0C2AF0 died at 9066. Parameters:  
+Sight range : 60.1268
+Sight degrees : 115.401
+Turning ability : 0.0306964
+Cohesion Weight : 4.1133
+Cohesion Multiplier : 1.54095
+Separation Weight : 12.9615
+Alignment Weight : 2.64146
+Flee Weight : 28.6063
+Small Flock definition : 11
+There was 2 nearby boids at time of death. The boid was located at : x: 5.34836 y : -26.6878
+
+000001EB97178510 died at 11919. Parameters:  
+Sight range : 63.0608
+Sight degrees : 116.213
+Turning ability : 0.0299779
+Cohesion Weight : 3.04312
+Cohesion Multiplier : 1.32475
+Separation Weight : 6.54158
+Alignment Weight : 3.01413
+Flee Weight : 46.1455
+Small Flock definition : 14
+There was 4 nearby boids at time of death. The boid was located at : x: 44.4347 y : -120.92
+
+000001EB8F0C3670 died at 14035. Parameters:  
+Sight range : 79.4848
+Sight degrees : 105.664
+Turning ability : 0.0375823
+Cohesion Weight : 3.06712
+Cohesion Multiplier : 1.43641
+Separation Weight : 10.8586
+Alignment Weight : 6.13317
+Flee Weight : 38.1647
+Small Flock definition : 14
+There was 4 nearby boids at time of death. The boid was located at : x: -52.3847 y : -174.931
+
+000001EB8ECB3200 died at 14769. Parameters:  
+Sight range : 69.5934
+Sight degrees : 148.79
+Turning ability : 0.0370575
+Cohesion Weight : 2.33422
+Cohesion Multiplier : 1.27932
+Separation Weight : 15.2335
+Alignment Weight : 4.79836
+Flee Weight : 18.1745
 Small Flock definition : 4
-There was 16 nearby boids at time of death. The boid was located at : x: -155.046 y : -94.0324
+There was 3 nearby boids at time of death. The boid was located at : x: -9.35937 y : -204.135
 
-000001E08B244BF0 died at 5367. Parameters:  
-Sight range : 63.4992
-Sight degrees : 113.353
-Turning ability : 0.0553342
-Cohesion Weight : 5.59915
-Cohesion Multiplier : 3.39991
-Separation Weight : 2.49923
-Alignment Weight : 6.50008
-Flee Weight : 22.0015
-Small Flock definition : 4
-There was 30 nearby boids at time of death. The boid was located at : x: -106.018 y : -107.712
+000001EB8EF62E60 died at 14816. Parameters:  
+Sight range : 68.2161
+Sight degrees : 128.324
+Turning ability : 0.0337606
+Cohesion Weight : 2.77364
+Cohesion Multiplier : 1.78319
+Separation Weight : 10.544
+Alignment Weight : 3.18933
+Flee Weight : 16.5573
+Small Flock definition : 20
+There was 8 nearby boids at time of death. The boid was located at : x: -25.3167 y : -189.926
 
-000001E08B367CD0 died at 5789. Parameters:  
-Sight range : 64.9996
-Sight degrees : 124.917
-Turning ability : 0.0323496
-Cohesion Weight : 3.19914
-Cohesion Multiplier : 3.39992
-Separation Weight : 1.59901
-Alignment Weight : 4.50033
-Flee Weight : 12.0013
-Small Flock definition : 3
-There was 60 nearby boids at time of death. The boid was located at : x: -97.2917 y : -89.3633
+000001EB9717B480 died at 18320. Parameters:  
+Sight range : 67.9937
+Sight degrees : 112.925
+Turning ability : 0.0346299
+Cohesion Weight : 2.52286
+Cohesion Multiplier : 1.73901
+Separation Weight : 14.1986
+Alignment Weight : 6.37361
+Flee Weight : 27.1847
+Small Flock definition : 14
+There was 5 nearby boids at time of death. The boid was located at : x: -73.6769 y : -311.005
 
-000001E08B38FED0 died at 5805. Parameters:  
-Sight range : 79.9999
-Sight degrees : 144.668
-Turning ability : 0.05
-Cohesion Weight : 3.91994
-Cohesion Multiplier : 3.19995
-Separation Weight : 2.04962
-Alignment Weight : 6.00003
-Flee Weight : 13.0004
-Small Flock definition : 2
-There was 63 nearby boids at time of death. The boid was located at : x: -97.1333 y : -89.6641
+000001EB8F0C51C0 died at 18568. Parameters:  
+Sight range : 75.5357
+Sight degrees : 115.194
+Turning ability : 0.0366466
+Cohesion Weight : 3.66035
+Cohesion Multiplier : 1.33865
+Separation Weight : 5.73333
+Alignment Weight : 1.40295
+Flee Weight : 36.1069
+Small Flock definition : 6
+There was 22 nearby boids at time of death. The boid was located at : x: -82.9481 y : -319.829
 
-000001E08B366C50 died at 6445. Parameters:  
-Sight range : 70.4991
-Sight degrees : 122.655
-Turning ability : 0.0348278
-Cohesion Weight : 4.51994
-Cohesion Multiplier : 4.39982
-Separation Weight : 2.89943
-Alignment Weight : 6.00017
-Flee Weight : 16.0011
-Small Flock definition : 4
-There was 73 nearby boids at time of death. The boid was located at : x: -82.1308 y : -71.7208
+000001EB8ECB3370 died at 20754. Parameters:  
+Sight range : 78.462
+Sight degrees : 130.967
+Turning ability : 0.0364288
+Cohesion Weight : 3.94784
+Cohesion Multiplier : 1.26724
+Separation Weight : 9.12931
+Alignment Weight : 2.11645
+Flee Weight : 42.0002
+Small Flock definition : 8
+There was 10 nearby boids at time of death. The boid was located at : x: -180.726 y : -300.204
 
-000001E08B2DBE90 died at 6619. Parameters:  
-Sight range : 81.4995
-Sight degrees : 147.09
-Turning ability : 0.031055
-Cohesion Weight : 5.11914
-Cohesion Multiplier : 3.79972
-Separation Weight : 2.14944
-Alignment Weight : 4.00012
-Flee Weight : 23.0008
-Small Flock definition : 4
-There was 29 nearby boids at time of death. The boid was located at : x: -109.661 y : -108.918
+000001EB8EF60790 died at 21387. Parameters:  
+Sight range : 72.0101
+Sight degrees : 124.659
+Turning ability : 0.0371506
+Cohesion Weight : 3.62191
+Cohesion Multiplier : 1.52806
+Separation Weight : 12.8728
+Alignment Weight : 6.03571
+Flee Weight : 13.1437
+Small Flock definition : 16
+There was 9 nearby boids at time of death. The boid was located at : x: -191.34 y : -309.816
 
-000001E08B367750 died at 6633. Parameters:  
-Sight range : 97.5
-Sight degrees : 119.369
-Turning ability : 0.0497789
-Cohesion Weight : 5.91932
-Cohesion Multiplier : 3.5996
-Separation Weight : 1.54949
-Alignment Weight : 4.50015
-Flee Weight : 18.0006
-Small Flock definition : 3
-There was 122 nearby boids at time of death. The boid was located at : x: -66.0605 y : -75.2517
+000001EB9717CE60 died at 21713. Parameters:  
+Sight range : 77.1014
+Sight degrees : 134.013
+Turning ability : 0.0333923
+Cohesion Weight : 3.76338
+Cohesion Multiplier : 1.26513
+Separation Weight : 6.76681
+Alignment Weight : 3.30515
+Flee Weight : 24.0106
+Small Flock definition : 14
+There was 13 nearby boids at time of death. The boid was located at : x: -204.486 y : -321.017
 
-000001E08B369010 died at 6695. Parameters:  
-Sight range : 65.9997
-Sight degrees : 147.333
-Turning ability : 0.0281376
-Cohesion Weight : 3.59997
-Cohesion Multiplier : 4.19968
-Separation Weight : 1.54932
-Alignment Weight : 5.00045
-Flee Weight : 18.0019
-Small Flock definition : 4
-There was 7 nearby boids at time of death. The boid was located at : x: -123.86 y : -96.3468
+000001EB9717AA70 died at 21799. Parameters:  
+Sight range : 64.3188
+Sight degrees : 100.835
+Turning ability : 0.0289951
+Cohesion Weight : 2.92072
+Cohesion Multiplier : 1.52328
+Separation Weight : 5.33122
+Alignment Weight : 3.61122
+Flee Weight : 37.1441
+Small Flock definition : 12
+There was 11 nearby boids at time of death. The boid was located at : x: -209.829 y : -323.521
 
-000001E08B368670 died at 6867. Parameters:  
-Sight range : 116.499
-Sight degrees : 125.909
-Turning ability : 0.0300431
-Cohesion Weight : 4.8395
-Cohesion Multiplier : 3.79971
-Separation Weight : 1.99904
-Alignment Weight : 5.00008
-Flee Weight : 20.0005
-Small Flock definition : 4
-There was 79 nearby boids at time of death. The boid was located at : x: -104.446 y : -102.043
+000001EB8F0D56F0 died at 21817. Parameters:  
+Sight range : 76.1279
+Sight degrees : 112.165
+Turning ability : 0.0350163
+Cohesion Weight : 3.15049
+Cohesion Multiplier : 1.60623
+Separation Weight : 12.3539
+Alignment Weight : 5.39916
+Flee Weight : 37.3715
+Small Flock definition : 17
+There was 11 nearby boids at time of death. The boid was located at : x: -209.48 y : -324.366
 
-000001E08B366AF0 died at 6977. Parameters:  
-Sight range : 87.9997
-Sight degrees : 134.631
-Turning ability : 0.0523373
-Cohesion Weight : 4.71949
-Cohesion Multiplier : 3.99954
-Separation Weight : 1.64908
-Alignment Weight : 4.00008
-Flee Weight : 18.0009
-Small Flock definition : 4
-There was 104 nearby boids at time of death. The boid was located at : x: -63.069 y : -61.2631
+000001EB8F0C37E0 died at 21851. Parameters:  
+Sight range : 62.3218
+Sight degrees : 133.027
+Turning ability : 0.028751
+Cohesion Weight : 3.06069
+Cohesion Multiplier : 1.60772
+Separation Weight : 14.411
+Alignment Weight : 6.31697
+Flee Weight : 20.8739
+Small Flock definition : 14
+There was 7 nearby boids at time of death. The boid was located at : x: -207.416 y : -324.943
 
-000001E08B1F09D0 died at 7086. Parameters:  
-Sight range : 117.999
-Sight degrees : 111.808
-Turning ability : 0.0300218
-Cohesion Weight : 4.11945
-Cohesion Multiplier : 2.59986
-Separation Weight : 2.64995
-Alignment Weight : 3.50037
-Flee Weight : 12.0002
-Small Flock definition : 3
-There was 4 nearby boids at time of death. The boid was located at : x: -58.6394 y : -57.752
+000001EB8F0C5BD0 died at 21868. Parameters:  
+Sight range : 67.9988
+Sight degrees : 130.749
+Turning ability : 0.0372185
+Cohesion Weight : 4.58047
+Cohesion Multiplier : 1.73844
+Separation Weight : 6.58003
+Alignment Weight : 6.87538
+Flee Weight : 46.5509
+Small Flock definition : 6
+There was 8 nearby boids at time of death. The boid was located at : x: -208.777 y : -324.865
 
-000001E08B1BE750 died at 7195. Parameters:  
-Sight range : 89.9997
-Sight degrees : 103.883
-Turning ability : 0.0352816
-Cohesion Weight : 4.11983
-Cohesion Multiplier : 3.99993
-Separation Weight : 1.64939
-Alignment Weight : 6.50006
-Flee Weight : 12.0011
-Small Flock definition : 2
-There was 31 nearby boids at time of death. The boid was located at : x: -75.6027 y : 16.0223
+000001EB8EFFAF10 died at 22360. Parameters:  
+Sight range : 73.4105
+Sight degrees : 144.217
+Turning ability : 0.0286546
+Cohesion Weight : 2.75637
+Cohesion Multiplier : 1.32157
+Separation Weight : 11.4801
+Alignment Weight : 3.06569
+Flee Weight : 35.1939
+Small Flock definition : 7
+There was 19 nearby boids at time of death. The boid was located at : x: -177.178 y : -239.309
 
-000001E08B2DB0D0 died at 7539. Parameters:  
-Sight range : 100.499
-Sight degrees : 101.271
-Turning ability : 0.0358664
-Cohesion Weight : 3.43913
-Cohesion Multiplier : 4.5997
-Separation Weight : 2.74917
-Alignment Weight : 6.50003
-Flee Weight : 22.0004
-Small Flock definition : 3
-There was 17 nearby boids at time of death. The boid was located at : x: -75.375 y : 1.93184
+000001EB8F0C41F0 died at 22514. Parameters:  
+Sight range : 77.6641
+Sight degrees : 117.988
+Turning ability : 0.0314723
+Cohesion Weight : 4.20587
+Cohesion Multiplier : 1.37255
+Separation Weight : 15.2855
+Alignment Weight : 6.7953
+Flee Weight : 21.8177
+Small Flock definition : 12
+There was 7 nearby boids at time of death. The boid was located at : x: -201.998 y : -300.247
 
-000001E08B02D010 died at 7601. Parameters:  
-Sight range : 64.9995
-Sight degrees : 108.37
-Turning ability : 0.0331349
-Cohesion Weight : 4.3597
-Cohesion Multiplier : 4.59976
-Separation Weight : 1.84939
-Alignment Weight : 6.00045
-Flee Weight : 17.0019
-Small Flock definition : 3
-There was 5 nearby boids at time of death. The boid was located at : x: -50.7275 y : -42.0177
+000001EB8F0D4FC0 died at 22628. Parameters:  
+Sight range : 63.4947
+Sight degrees : 130.317
+Turning ability : 0.0350876
+Cohesion Weight : 4.29021
+Cohesion Multiplier : 1.60704
+Separation Weight : 15.9941
+Alignment Weight : 6.8412
+Flee Weight : 22.6604
+Small Flock definition : 11
+There was 6 nearby boids at time of death. The boid was located at : x: -194.133 y : -300.055
 
-000001E08B2F7780 died at 7601. Parameters:  
-Sight range : 109.5
-Sight degrees : 102.82
-Turning ability : 0.0367854
-Cohesion Weight : 3.87922
-Cohesion Multiplier : 4.1999
-Separation Weight : 2.79985
-Alignment Weight : 5.50044
-Flee Weight : 20.0009
-Small Flock definition : 3
-There was 14 nearby boids at time of death. The boid was located at : x: -63.4526 y : 0.518038
-
-000001E08B2DB650 died at 8226. Parameters:  
-Sight range : 79.4995
-Sight degrees : 120.234
-Turning ability : 0.0385172
-Cohesion Weight : 3.23993
-Cohesion Multiplier : 4.19995
-Separation Weight : 2.79927
-Alignment Weight : 4.00037
-Flee Weight : 12.0013
-Small Flock definition : 4
-There was 8 nearby boids at time of death. The boid was located at : x: -74.7805 y : -23.0117
-
-000001E08B1F0DF0 died at 8460. Parameters:  
-Sight range : 87
-Sight degrees : 140.231
-Turning ability : 0.0352723
-Cohesion Weight : 3.83967
-Cohesion Multiplier : 3.39965
-Separation Weight : 2.29986
-Alignment Weight : 3.50025
-Flee Weight : 23.0007
-Small Flock definition : 3
-There was 11 nearby boids at time of death. The boid was located at : x: -70.2889 y : -31.1009
-
-000001E08B38F7F0 died at 8976. Parameters:  
-Sight range : 111.999
-Sight degrees : 131.668
-Turning ability : 0.0492702
-Cohesion Weight : 5.55939
-Cohesion Multiplier : 3.79992
-Separation Weight : 2.69944
-Alignment Weight : 5.50011
-Flee Weight : 14.0002
-Small Flock definition : 3
-There was 11 nearby boids at time of death. The boid was located at : x: -18.7541 y : -0.663973
-
-000001E08B38EFB0 died at 8992. Parameters:  
-Sight range : 82
-Sight degrees : 143.686
-Turning ability : 0.0548243
-Cohesion Weight : 5.67934
-Cohesion Multiplier : 4.39968
-Separation Weight : 2.09948
-Alignment Weight : 4.50027
-Flee Weight : 23.0006
-Small Flock definition : 4
-There was 6 nearby boids at time of death. The boid was located at : x: -15.3221 y : -1.56912
-
-000001E08B3687D0 died at 9429. Parameters:  
-Sight range : 76.4997
-Sight degrees : 104.28
-Turning ability : 0.0286971
-Cohesion Weight : 5.19966
-Cohesion Multiplier : 3.99973
-Separation Weight : 2.5499
-Alignment Weight : 6.00042
-Flee Weight : 18.0015
-Small Flock definition : 3
-There was 5 nearby boids at time of death. The boid was located at : x: -33.3095 y : 14.2182
-
-000001E08B368A90 died at 10069. Parameters:  
-Sight range : 64.4991
-Sight degrees : 137.371
-Turning ability : 0.0307448
-Cohesion Weight : 5.59984
-Cohesion Multiplier : 2.79978
-Separation Weight : 2.54932
-Alignment Weight : 3.50044
-Flee Weight : 13.0013
-Small Flock definition : 3
-There was 0 nearby boids at time of death. The boid was located at : x: -45.8899 y : -20.4503
-
-000001E08B02FBD0 died at 12241. Parameters:  
-Sight range : 73.4997
-Sight degrees : 129.284
-Turning ability : 0.0522712
-Cohesion Weight : 5.15952
-Cohesion Multiplier : 3.19984
-Separation Weight : 2.44998
-Alignment Weight : 3.50002
-Flee Weight : 23.0003
-Small Flock definition : 3
-There was 5 nearby boids at time of death. The boid was located at : x: -113.354 y : 59.0788
-
-000001E08B2F74C0 died at 12647. Parameters:  
-Sight range : 91.9997
-Sight degrees : 109.745
-Turning ability : 0.0461597
-Cohesion Weight : 4.59986
-Cohesion Multiplier : 3.99996
-Separation Weight : 2.74921
-Alignment Weight : 4.00027
-Flee Weight : 17.0016
-Small Flock definition : 2
-There was 58 nearby boids at time of death. The boid was located at : x: 68.7079 y : 9.96869
-
-000001E08B1BD570 died at 16412. Parameters:  
-Sight range : 61.9995
-Sight degrees : 122.338
-Turning ability : 0.0467239
-Cohesion Weight : 5.07992
-Cohesion Multiplier : 3.99966
-Separation Weight : 2.149
-Alignment Weight : 4.00009
-Flee Weight : 19.0015
-Small Flock definition : 3
-There was 3 nearby boids at time of death. The boid was located at : x: 202.608 y : 10.5461
-
-000001E08B030410 died at 22988. Parameters:  
-Sight range : 93.4998
-Sight degrees : 113.086
-Turning ability : 0.0382297
-Cohesion Weight : 3.35936
-Cohesion Multiplier : 3.99987
-Separation Weight : 1.94924
-Alignment Weight : 4.5005
-Flee Weight : 15.0007
-Small Flock definition : 3
-There was 14 nearby boids at time of death. The boid was located at : x: 319.929 y : -188.181
-
-000001E08B369590 died at 23176. Parameters:  
-Sight range : 102
-Sight degrees : 103.528
-Turning ability : 0.0342464
-Cohesion Weight : 5.67912
-Cohesion Multiplier : 4.19988
-Separation Weight : 1.69963
-Alignment Weight : 6.00016
-Flee Weight : 15.0003
-Small Flock definition : 2
-There was 7 nearby boids at time of death. The boid was located at : x: 322.362 y : -180.949
-
-000001E08B1F0870 died at 23693. Parameters:  
-Sight range : 99.4996
-Sight degrees : 137.558
-Turning ability : 0.0381422
-Cohesion Weight : 5.07941
-Cohesion Multiplier : 3.79971
-Separation Weight : 1.59985
-Alignment Weight : 5.00048
-Flee Weight : 15.0016
-Small Flock definition : 2
-There was 7 nearby boids at time of death. The boid was located at : x: 346.65 y : -190.128
-
-000001E08B2F69C0 died at 24723. Parameters:  
-Sight range : 72.9997
-Sight degrees : 120.466
-Turning ability : 0.0501057
-Cohesion Weight : 4.99972
-Cohesion Multiplier : 4.59987
-Separation Weight : 1.99941
-Alignment Weight : 5.50025
-Flee Weight : 17.0007
-Small Flock definition : 3
-There was 17 nearby boids at time of death. The boid was located at : x: 382.724 y : -195.876
+000001EB971783A0 died at 22885. Parameters:  
+Sight range : 67.39
+Sight degrees : 141.603
+Turning ability : 0.0362469
+Cohesion Weight : 3.25644
+Cohesion Multiplier : 1.30998
+Separation Weight : 14.1476
+Alignment Weight : 2.16215
+Flee Weight : 13.1195
+Small Flock definition : 15
+There was 1 nearby boids at time of death. The boid was located at : x: -185.965 y : -296.967
 

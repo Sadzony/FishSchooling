@@ -34,11 +34,12 @@ void Boid::randomizeStats()
 {
 	m_speed = randomizeWithinFraction(FISH_SPEED, 0.05f);
 	m_sightDistance = randomizeWithinFraction(BOID_SIGHT_RANGE, 0.5f);
-	m_cohesionWeight = randomizeWithinFraction(COHESION_STRENGTH, 0.075f);
+	m_cohesionWeight = randomizeWithinFraction(COHESION_STRENGTH, 0.35f);
 	m_cohesionMultiplier = randomizeWithinFraction(COHESION_MULTIPLIER, 0.2f);
-	m_separationWeight = randomizeWithinFraction(SEPARATION_STRENGTH, 0.5f);
+	m_separationWeight = randomizeWithinFraction(SEPARATION_STRENGTH, 0.6f);
+	m_separationDistance = randomizeWithinFraction(SEPARATION_DISTANCE, 0.5f);
 	m_smallFlockNumber = (int)randomizeWithinFraction(SMALL_FLOCK_NUMBER, 0.8f);
-	m_alignmentWeight = randomizeWithinFraction(ALIGNMENT_STRENGTH, 0.3f);
+	m_alignmentWeight = randomizeWithinFraction(ALIGNMENT_STRENGTH, 0.8f);
 	m_fleeWeight = randomizeWithinFraction(FLEE_STRENGTH, 0.6f);
 	m_sightDistance = randomizeWithinFraction(BOID_SIGHT_RANGE, 0.15f);
 	m_sightArc = 100.0f + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (150.0f - 100.0f)));
@@ -52,8 +53,7 @@ float Boid::randomizeWithinFraction(double value, float fraction)
 {
 	double max = (value * (1.0f + fraction));
 	double min = (value * (1.0f - fraction));
-	double difference = max - min;
-	return fmod(rand(), max - difference) + min;
+	return min + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (max - min)));
 }
 
 void Boid::setDirection(XMFLOAT3 direction)
@@ -178,28 +178,23 @@ XMFLOAT3 Boid::calculateSeparationVector(vecBoid* boidList)
 
 		XMFLOAT3 mePos = m_position;
 		XMFLOAT3 itPos = *boid->getPosition();
-		XMFLOAT3 directionNearest = subtractFloat3(itPos, mePos);
+		XMFLOAT3 directionNearest = subtractFloat3(mePos, itPos);
 		float d = magnitudeFloat3(directionNearest);
-		if ((d < distanceNearest) || distanceNearest < 0) {
-			distanceNearest = d;
-			outV = directionNearest;
+		if (d < m_separationDistance) {
+			outV = addFloat3(outV, directionNearest);
+			nearbyCount++;
 		}
-		nearbyCount++;
 
 	}
 
 
 	if (nearbyCount == 0) {
-		return m_direction;
+		return XMFLOAT3(0, 0, 0);
 	}
 	else {
-		outV = multiplyFloat3(outV, -1);
-		if (distanceNearest < SEPARATION_DISTANCE) {
-			return multiplyFloat3(normaliseFloat3(outV), SEPARATION_MULTIPLIER); //more strength if below distance
-		}
-		else {
-			return normaliseFloat3(outV);
-		}
+		outV = divideFloat3(outV, nearbyCount);
+		//outV = multiplyFloat3(outV, -1);
+		return normaliseFloat3(outV);
 	}
 }
 
@@ -276,7 +271,7 @@ XMFLOAT3 Boid::calculateCohesionVector(vecBoid* boidList, vecBoid* fullList)
 			XMFLOAT3 itPos = *boid->getPosition();
 			XMFLOAT3 dir = subtractFloat3(mePos, itPos);
 			float d = magnitudeFloat3(dir);
-			if (d < m_sightDistance && d > SEPARATION_DISTANCE)
+			if (d < m_sightDistance && d > m_separationDistance)
 			{
 				nearby = addFloat3(nearby, itPos);
 				nearbyCount++;

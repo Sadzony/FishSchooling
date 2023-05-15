@@ -2,8 +2,8 @@
 
 #define DELTA_TIME 0.018f
 
-#define FISH_COUNT 250
-#define PREDATOR_COUNT 6
+#define FISH_COUNT 400
+#define PREDATOR_COUNT 3
 
 #define FISH_SCALE 1.375
 #define PREDATOR_SCALE 6
@@ -17,16 +17,15 @@
 #define PREDATOR_FOCUS_RANGE 45.0f
 
 
-#define SEPARATION_DISTANCE 6.0f //distance on which separation is multiplied
-#define SEPARATION_MULTIPLIER 5.0f // multiplier for strength when separation distance is reached
+#define SEPARATION_DISTANCE 24.0f //distance on which separation is multiplied
 
 #define COHESION_DISTANCE 14.0f
-#define COHESION_MULTIPLIER 3.0f
+#define COHESION_MULTIPLIER 1.5f
 #define SMALL_FLOCK_NUMBER 12
 
-#define ALIGNMENT_STRENGTH 5.0f
-#define SEPARATION_STRENGTH 2.9f
-#define COHESION_STRENGTH 3.2f
+#define ALIGNMENT_STRENGTH 4.0f
+#define SEPARATION_STRENGTH 10.0f
+#define COHESION_STRENGTH 3.5f
 
 #define FLEE_STRENGTH 30.0f
 
