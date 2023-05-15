@@ -18,7 +18,7 @@ public:
 	float								getScale() { return m_scale; }
 	bool								getSmallFlock() { return m_isInSmallFlock; }
 	void								checkIsOnScreenAndFix(const XMMATRIX&  view, const XMMATRIX&  proj);
-	virtual void						update(float t, vecBoid* drawList);
+	virtual void						update(float t, vecBoid* drawList, const XMMATRIX& view, const XMMATRIX& proj);
 
 	bool								isDead = false;
 	void								die();
@@ -36,7 +36,7 @@ protected:
 	XMFLOAT3							calculateSeparationVector(vecBoid* drawList);
 	XMFLOAT3							calculateAlignmentVector(vecBoid* drawList);
 	XMFLOAT3							calculateCohesionVector(vecBoid* drawList, vecBoid* fullList);
-	XMFLOAT3							calculateFleeVector(vecBoid* fullList);
+	XMFLOAT3							calculateFleeVector(vecBoid* fullList, const XMMATRIX& view, const XMMATRIX& proj);
 								
 
 	virtual Boid*						findClosestBoid(vecBoid* boidList);
@@ -62,6 +62,12 @@ protected:
 	float								m_sightArc;
 	float								m_scale;
 	float								m_turningDelta;
+	float								m_cohesionWeight;
+	float								m_cohesionMultiplier;
+	float								m_separationWeight;
+	float								m_alignmentWeight;
+	float								m_fleeWeight;
+	int									m_smallFlockNumber;
 	FishFlag							m_flag;
 	bool								m_isInSmallFlock = false;
 	float								m_timeOfDeath = 0.0f;

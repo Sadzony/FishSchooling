@@ -32,11 +32,19 @@ void Boid::createRandomDirection()
 
 void Boid::randomizeStats()
 {
-	m_speed = randomizeWithinFraction(FISH_SPEED, 0.4f);
+	m_speed = randomizeWithinFraction(FISH_SPEED, 0.05f);
+	m_sightDistance = randomizeWithinFraction(BOID_SIGHT_RANGE, 0.5f);
+	m_cohesionWeight = randomizeWithinFraction(COHESION_STRENGTH, 0.075f);
+	m_cohesionMultiplier = randomizeWithinFraction(COHESION_MULTIPLIER, 0.2f);
+	m_separationWeight = randomizeWithinFraction(SEPARATION_STRENGTH, 0.5f);
+	m_smallFlockNumber = (int)randomizeWithinFraction(SMALL_FLOCK_NUMBER, 0.8f);
+	m_alignmentWeight = randomizeWithinFraction(ALIGNMENT_STRENGTH, 0.3f);
+	m_fleeWeight = randomizeWithinFraction(FLEE_STRENGTH, 0.6f);
 	m_sightDistance = randomizeWithinFraction(BOID_SIGHT_RANGE, 0.15f);
-	m_sightArc = 60.0f + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (180.0f - 60.0f)));
+	m_sightArc = 100.0f + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (150.0f - 100.0f)));
 	m_scale = FISH_SCALE;
-	m_turningDelta = randomizeWithinFraction(SMOOTH_VALUE_FISH, 0.25f);
+
+	m_turningDelta = randomizeWithinFraction(SMOOTH_VALUE_FISH, 0.15f);
 
 }
 
@@ -68,7 +76,7 @@ void Boid::setDirection(XMFLOAT3 direction)
 
 }
 
-void Boid::update(float t, vecBoid* boidList)
+void Boid::update(float t, vecBoid* boidList, const XMMATRIX& view, const XMMATRIX& proj)
 {
 	if (!isDead) {
 		// create a list of nearby boids
@@ -78,16 +86,17 @@ void Boid::update(float t, vecBoid* boidList)
 		XMFLOAT3  vSeparation = calculateSeparationVector(&nearBoids);
 		XMFLOAT3  vAlignment = calculateAlignmentVector(&nearBoids);
 		XMFLOAT3  vCohesion = calculateCohesionVector(&nearBoids, boidList);
-		XMFLOAT3 vFlee = calculateFleeVector(boidList);
+		XMFLOAT3 vFlee = calculateFleeVector(boidList, view, proj);
 
 		//weight * ( 1 - dist/maxdist)   - power gets bigger the shorter the distance
 		//weight * (dist/maxdist)        - power gets smaller the shorter the distance
 
 		//update with strength modifiers
-		vSeparation = multiplyFloat3(vSeparation, SEPARATION_STRENGTH);
-		vAlignment = multiplyFloat3(vAlignment, ALIGNMENT_STRENGTH);
-		vCohesion = multiplyFloat3(vCohesion, COHESION_STRENGTH);
-		vFlee = multiplyFloat3(vFlee, FLEE_STRENGTH);
+		vSeparation = multiplyFloat3(vSeparation, m_separationWeight);
+		vAlignment = multiplyFloat3(vAlignment, m_alignmentWeight);
+		vCohesion = multiplyFloat3(vCohesion, m_cohesionWeight);
+		vFlee = multiplyFloat3(vFlee, m_fleeWeight);
+
 
 
 		XMFLOAT3 vTotal = addFloat3(vCohesion, vAlignment);
@@ -186,7 +195,7 @@ XMFLOAT3 Boid::calculateSeparationVector(vecBoid* boidList)
 	else {
 		outV = multiplyFloat3(outV, -1);
 		if (distanceNearest < SEPARATION_DISTANCE) {
-			return multiplyFloat3(normaliseFloat3(outV), SEPARATION_MULTIPLIER); //double strength if below distance
+			return multiplyFloat3(normaliseFloat3(outV), SEPARATION_MULTIPLIER); //more strength if below distance
 		}
 		else {
 			return normaliseFloat3(outV);
@@ -238,7 +247,7 @@ XMFLOAT3 Boid::calculateCohesionVector(vecBoid* boidList, vecBoid* fullList)
 	XMFLOAT3 smallFlockDirectionNearest;
 
 	//if in a small flock, try to get to the nearest boid outside of sight range
-	if (boidList->size() < SMALL_FLOCK_NUMBER) {
+	if (boidList->size() < m_smallFlockNumber) {
 		m_isInSmallFlock = true;
 		for (Boid* boid : *fullList) {
 			if (boid == this || boid->getFlag() == predatorBoid) {
@@ -281,21 +290,21 @@ XMFLOAT3 Boid::calculateCohesionVector(vecBoid* boidList, vecBoid* fullList)
 	float d = magnitudeFloat3(nearby);
 	nearby = normaliseFloat3(nearby); // nearby (when normalised) is the direction to where the other drawables are
 	if (m_isInSmallFlock) {
-		return multiplyFloat3(normaliseFloat3(smallFlockDirectionNearest), COHESION_MULTIPLIER);
+		return multiplyFloat3(normaliseFloat3(smallFlockDirectionNearest), m_cohesionMultiplier);
 	}
 	else if (d < COHESION_DISTANCE) { //but only if below cohesion distance
 		float weight = (d / COHESION_DISTANCE);
 		return multiplyFloat3(nearby, weight);
 	}
 	else {
-		return multiplyFloat3(nearby, COHESION_MULTIPLIER);; //if distance is far then multiply!
+		return multiplyFloat3(nearby, m_cohesionMultiplier);; //if distance is far then multiply!
 	}
 	 
 
 	
 }
 
-XMFLOAT3 Boid::calculateFleeVector(vecBoid* fullList)
+XMFLOAT3 Boid::calculateFleeVector(vecBoid* fullList, const XMMATRIX& view, const XMMATRIX& proj)
 {
 	XMFLOAT3 outV = XMFLOAT3(0, 0, 0);
 	int predatorCount = 0;
@@ -310,30 +319,56 @@ XMFLOAT3 Boid::calculateFleeVector(vecBoid* fullList)
 		XMFLOAT3 direction = subtractFloat3(mePos, itPos);
 		float d = magnitudeFloat3(direction);
 		if (d < m_sightDistance) {
+			XMFLOAT3 future = addFloat3(multiplyFloat3(multiplyFloat3(direction, DELTA_TIME), m_speed), m_position);
+
+			XMFLOAT4 v4;
+			v4.x = future.x;
+			v4.y = future.y;
+			v4.z = future.z;
+			v4.w = 1.0f;
+
+			XMVECTOR vScreenSpace = XMLoadFloat4(&v4);
+			XMVECTOR vScreenSpace2 = XMVector4Transform(vScreenSpace, view);
+			XMVECTOR vScreenSpace3 = XMVector4Transform(vScreenSpace2, proj);
+
+			XMFLOAT4 v;
+			XMStoreFloat4(&v, vScreenSpace3);
+			v.x /= v.w;
+			v.y /= v.w;
+			v.z /= v.w;
+			v.w /= v.w;
+			float fOffset = 10; // a suitable distance to rectify position within clip space
+			if (v.x < -1 || v.x > 1 || v.y < -1 || v.y > 1)
+			{
+				if (v.x < -1 || v.x > 1) {
+					v4.x = -v4.x + (fOffset * v.x);
+				}
+				else if (v.y < -1 || v.y > 1) {
+					v4.y = -v4.y + (fOffset * v.y);
+				}
+
+				if (v.y < -1 || v.y > 1)
+				{
+					direction.y *= -1.0f;
+				}
+				if (v.x < -1 || v.x > 1)
+				{
+					direction.y *= -1.0f;
+				}
+			}
 			direction = normaliseFloat3(direction);
 			direction.z = 0;
-			XMFLOAT3 normalisedDirection = m_direction;
-			float dot = dotFloat3(direction, normaliseFloat3(normalisedDirection));
-			if (dot < -1)
-				dot = -1;
-			else if (dot > 1)
-				dot = 1;
-			float angle = acos(dot);
-			angle = angle * (180.0f / 3.14159265358979323846f);
-			if (angle < m_sightArc / 2)
-			{
-				float weight = 1 - (d / m_sightDistance);
-				direction = multiplyFloat3(direction, weight);
-				outV = addFloat3(outV, direction);
-				predatorCount++;
-			}
+			outV = addFloat3(outV, direction);
+			predatorCount++;
 		}
 	}
 	if (predatorCount == 0) {
 		return XMFLOAT3(0, 0, 0);
 	}
-	outV = normaliseFloat3(outV);
-	return outV;
+	else {
+		outV = normaliseFloat3(outV);
+		return outV;
+	}
 }
 
 Boid* Boid::findClosestBoid(vecBoid* boidList)
@@ -446,7 +481,17 @@ string Boid::returnDiagString()
 {
 	void* mypntr = this;
 	std::stringstream outss;
-	outss << mypntr << "died at " << m_timeOfDeath << ". Speed: " << m_speed << ". Sight range: " << m_sightDistance << ". Sight degrees: " << m_sightArc << ". Turning ability: " << m_turningDelta << ". There was " << m_boidsAtDeath << " nearby boids at time of death." << ". The boid was located at: x: " << m_deathPosition.x << " y: " << m_deathPosition.y << endl;
+	outss << mypntr << " died at " << m_timeOfDeath << ". Parameters:  " << std::endl <<
+														"Sight range : " << m_sightDistance << std::endl <<
+														"Sight degrees : " << m_sightArc << std::endl <<
+														"Turning ability : " << m_turningDelta << std::endl << 
+														"Cohesion Weight : " << m_cohesionWeight << std::endl <<
+														"Cohesion Multiplier : " << m_cohesionMultiplier << std::endl <<
+														"Separation Weight : " << m_separationWeight << std::endl <<
+														"Alignment Weight : " << m_alignmentWeight << std::endl <<
+														"Flee Weight : " << m_fleeWeight << std::endl <<
+														"Small Flock definition : " << m_smallFlockNumber << std::endl <<
+														"There was " << m_boidsAtDeath << " nearby boids at time of death" << ". The boid was located at : x: " << m_deathPosition.x << " y : " << m_deathPosition.y << endl << endl;
 
 	return outss.str();
 }
@@ -551,11 +596,68 @@ void Boid::checkIsOnScreenAndFix(const XMMATRIX&  view, const XMMATRIX&  proj)
 			m_position.y = v4.y;
 			m_position.z = v4.z;
 		}
+		// method2 - bounce off sides and head to centre
 		else {
-			// method2 - bounce off sides and head to centre
-			if (v.x < -1 || v.x > 1 || v.y < -1 || v.y > 1)
+			if ((v.y < -1 || v.y > 1) && (v.x < -1 || v.x > 1))
 			{
-				m_direction = multiplyFloat3(m_direction, -1);;
+				if (v.y < -1 && v.x < -1)
+				{
+					if (m_direction.x < 0)
+					{
+						m_direction.x *= -1.0;
+					}
+					else if (m_direction.y < 0)
+					{
+						m_direction.y *= -1.0;
+					}
+				}
+				else if (v.y < -1 && v.x > 1)
+				{
+					if (m_direction.x > 0)
+					{
+						m_direction.x *= -1.0;
+					}
+					else if (m_direction.y < 0)
+					{
+						m_direction.y *= -1.0;
+					}
+				}
+				else if (v.y > 1 && v.x < -1)
+				{
+					if (m_direction.x < 0)
+					{
+						m_direction.x *= -1.0;
+					}
+					else if (m_direction.y > 0)
+					{
+						m_direction.y *= -1.0;
+					}
+				}
+				else if (v.y > 1 && v.x > 1)
+				{
+					if (m_direction.x > 0)
+					{
+						m_direction.x *= -1.0;
+					}
+					else if (m_direction.y > 0)
+					{
+						m_direction.y *= -1.0;
+					}
+				}
+
+				m_direction = normaliseFloat3(m_direction);
+				setDirection(m_direction);
+			}
+
+			else if (v.x < -1 || v.x > 1)
+			{
+				m_direction.x *= -1.0;
+				m_direction = normaliseFloat3(m_direction);
+				setDirection(m_direction);
+			}
+			else if (v.y < -1 || v.y > 1)
+			{
+				m_direction.y *= -1.0;
 				m_direction = normaliseFloat3(m_direction);
 				setDirection(m_direction);
 			}

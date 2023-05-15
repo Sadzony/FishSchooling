@@ -28,7 +28,7 @@
 //--------------------------------------------------------------------------------------
 // eye position
 //--------------------------------------------------------------------------------------
-DirectX::XMFLOAT4 g_EyePosition(0.0f, 0, -200, 1.0f);
+DirectX::XMFLOAT4 g_EyePosition(0.0f, 0, -325, 1.0f);
 
 //--------------------------------------------------------------------------------------
 // Forward declarations
@@ -110,7 +110,7 @@ void placeFish()
             hr = fish->initMesh(g_pd3dDevice, g_pImmediateContext);
             if (FAILED(hr))
                 return;
-            fish->setPosition(XMFLOAT3(-50 + (i*10), 0 + (j*10), 0));
+            fish->setPosition(XMFLOAT3(-50 + (i*10), -100 + (j*10), 0));
             g_Boids.push_back(fish);
         }
     }
@@ -202,8 +202,8 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
         return E_FAIL;
 
     // Create window
-	int width = 1024;
-	int height = 768;
+	int width = SCREEN_WIDTH;
+	int height = SCREEN_HEIGHT;
     g_hInst = hInstance;
     RECT rc = { 0, 0, width, height };
 
@@ -753,7 +753,7 @@ void Render()
 
 	for(unsigned int i=0; i< g_Boids.size(); i++)
 	{ 
-		g_Boids[i]->update(t, &g_Boids);
+		g_Boids[i]->update(t, &g_Boids, g_View, g_Projection);
 
         
 		XMMATRIX vp = g_View * g_Projection;

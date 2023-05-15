@@ -6,7 +6,7 @@ class Predator :
 public:
     Predator();
     ~Predator();
-    virtual void update(float t, vecBoid* drawList) override;
+    virtual void update(float t, vecBoid* drawList, const XMMATRIX& view, const XMMATRIX& proj) override;
     bool checkCollisionPredator();
     virtual Boid* findClosestBoid(vecBoid* boidList) override;
 
